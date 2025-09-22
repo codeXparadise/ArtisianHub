@@ -1,6 +1,9 @@
 # ArtisanHub Marketplace
 
-ArtisanHub is a modern, responsive e-commerce platform designed for artisans and customers alike. It empowers artisans to showcase and sell their handcrafted creations while providing customers with a seamless shopping experience.
+ArtisanHub is a modern, responsive e-commerce platform designed for artisans and customers alike. It empowers artisans to showcase and sell their handcrafted creations while providing customers with a unique shopping experience.
+
+## Teaser Video
+<video src="media/teaser.mp4" controls width="600"></video>
 
 ## Table of Contents
 
@@ -82,6 +85,10 @@ ArtisianHub/
 │   ├── user-auth.html      # Login/Register page
 │   ├── become-artisan.html # Artisan registration page
 │   └── [other pages]       # Additional feature pages
+├── media/                  # Screenshots, videos, and media assets
+│   ├── teaser.mp4          # Project teaser video
+│   ├── screenshot1.png     # Example screenshot
+│   └── screenshot2.png     # Example screenshot
 ├── index.html              # Main landing page
 └── README.md               # Project documentation
 ```
@@ -109,6 +116,15 @@ ArtisianHub/
 
 4. **Real-time Updates:**
    - Dynamic content loading ensures users always view the latest data.
+
+## Teaser & Screenshots
+
+### Teaser Video
+<video src="media/teaser.mp4" controls width="600"></video>
+
+### Screenshots
+![Screenshot 1](media/screenshot1.png)
+![Screenshot 2](media/screenshot2.png)
 
 ## Contributing
 
