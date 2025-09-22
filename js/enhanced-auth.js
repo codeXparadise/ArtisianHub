@@ -1,4 +1,4 @@
-// Enhanced Authentication System for ArtisanHub with Supabase integration
+// Enhanced Authentication System for ArtisanHub
 class EnhancedAuthSystem {
     constructor() {
         this.currentUser = null;
@@ -31,35 +31,34 @@ class EnhancedAuthSystem {
         // Form toggles
         const showRegister = document.getElementById('show-register');
         const showLogin = document.getElementById('show-login');
+        const loginTab = document.getElementById('login-tab');
+        const registerTab = document.getElementById('register-tab');
         
         if (showRegister) {
-            showRegister.addEventListener('click', () => this.showForm('register'));
+            showRegister.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.showForm('register');
+            });
         }
         
         if (showLogin) {
-            showLogin.addEventListener('click', () => this.showForm('login'));
+            showLogin.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.showForm('login');
+            });
         }
 
-        // Header auth buttons
-        const loginBtn = document.getElementById('login-btn');
-        const registerBtn = document.getElementById('register-btn');
-        const logoutBtn = document.getElementById('logout-btn');
-
-        if (loginBtn) {
-            loginBtn.addEventListener('click', () => this.showForm('login'));
+        if (loginTab) {
+            loginTab.addEventListener('click', () => this.showForm('login'));
         }
-
-        if (registerBtn) {
-            registerBtn.addEventListener('click', () => this.showForm('register'));
-        }
-
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => this.logout());
+        
+        if (registerTab) {
+            registerTab.addEventListener('click', () => this.showForm('register'));
         }
 
         // Form submissions
-        const loginForm = document.getElementById('artist-login-form');
-        const registerForm = document.getElementById('artist-register-form');
+        const loginForm = document.getElementById('artist-login-form') || document.getElementById('user-login-form');
+        const registerForm = document.getElementById('artist-register-form') || document.getElementById('user-register-form');
 
         if (loginForm) {
             loginForm.addEventListener('submit', (e) => this.handleLogin(e));
@@ -68,27 +67,18 @@ class EnhancedAuthSystem {
         if (registerForm) {
             registerForm.addEventListener('submit', (e) => this.handleRegister(e));
         }
-    }
 
-    async checkAuthState() {
-        // Check if user is logged in
-        const currentUser = localStorage.getItem('currentUser');
-        if (currentUser) {
-            try {
-                this.currentUser = JSON.parse(currentUser);
-                this.updateAuthUI();
-            } catch (error) {
-                console.error('Error parsing current user:', error);
-                localStorage.removeItem('currentUser');
-            }
-        }
+        // Social login buttons
+        document.getElementById('google-login')?.addEventListener('click', () => this.handleSocialLogin('google'));
+        document.getElementById('facebook-login')?.addEventListener('click', () => this.handleSocialLogin('facebook'));
     }
 
     showForm(formType) {
-        const loginSection = document.getElementById('artist-login-section');
-        const registerSection = document.getElementById('artist-register-section');
-        const loginToggle = document.getElementById('login-toggle');
-        const registerToggle = document.getElementById('register-toggle');
+        // Handle different form layouts
+        const loginSection = document.getElementById('artist-login-section') || document.getElementById('login-container');
+        const registerSection = document.getElementById('artist-register-section') || document.getElementById('register-container');
+        const loginToggle = document.getElementById('login-toggle') || document.getElementById('login-tab');
+        const registerToggle = document.getElementById('register-toggle') || document.getElementById('register-tab');
 
         if (formType === 'login') {
             if (loginSection) loginSection.style.display = 'block';
@@ -101,6 +91,9 @@ class EnhancedAuthSystem {
             if (loginToggle) loginToggle.classList.remove('active');
             if (registerToggle) registerToggle.classList.add('active');
         }
+
+        // Clear form errors
+        this.clearFormErrors();
     }
 
     async handleLogin(event) {
@@ -109,6 +102,7 @@ class EnhancedAuthSystem {
         const formData = new FormData(event.target);
         const email = formData.get('email')?.trim();
         const password = formData.get('password');
+        const remember = formData.get('remember');
 
         // Clear previous errors
         this.clearFormErrors();
@@ -121,57 +115,58 @@ class EnhancedAuthSystem {
 
         // Show loading state
         const submitButton = event.target.querySelector('button[type="submit"]');
-        const originalText = submitButton.textContent;
-        submitButton.textContent = 'Signing in...';
+        const originalText = submitButton.innerHTML;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
         submitButton.disabled = true;
 
         try {
-            // Get user from database
-            const userResult = await this.db.getUser(email);
-            
-            if (!userResult.success || !userResult.data) {
-                throw new Error('Invalid email or password');
-            }
+            // Check localStorage first for demo purposes
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            let user = users.find(u => u.email === email && u.password === password);
 
-            const user = userResult.data;
-
-            // Verify password (in real app, this would be hashed)
-            if (user.password !== password) {
-                throw new Error('Invalid email or password');
-            }
-
-            // Check if user is an artisan
-            if (!user.is_artisan) {
-                throw new Error('This login is for artisans only. Please use the regular login.');
-            }
-
-            // Get artisan profile if exists
-            let artisanProfile = null;
-            if (user.is_artisan) {
-                const artisanResult = await this.db.getArtisan(user.id);
-                if (artisanResult.success && artisanResult.data) {
-                    artisanProfile = artisanResult.data;
+            if (!user) {
+                // Try database if localStorage fails
+                if (this.db) {
+                    const userResult = await this.db.getUser(email);
+                    if (userResult.success && userResult.data && userResult.data.password === password) {
+                        user = userResult.data;
+                    }
                 }
             }
 
-            // Set current user
-            this.currentUser = {
-                ...user,
-                artisanProfile: artisanProfile
-            };
+            if (!user) {
+                throw new Error('Invalid email or password');
+            }
 
-            // Save to localStorage
-            localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+            // Set current user
+            this.currentUser = user;
+
+            // Save to storage
+            if (remember) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+            } else {
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
+            }
+
+            // Use session manager if available
+            if (window.sessionManager) {
+                window.sessionManager.setUser(user, !!remember);
+            }
 
             // Show success message
             this.showNotification('Login successful! Welcome back.', 'success');
 
-            // Redirect based on profile completion
+            // Redirect based on user type
             setTimeout(() => {
-                if (artisanProfile && artisanProfile.profile_completed) {
-                    window.location.href = 'dashboard.html';
+                if (user.isArtisan || user.is_artisan) {
+                    if (user.profileCompleted || user.profile_completed) {
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        window.location.href = 'profile-setup.html';
+                    }
                 } else {
-                    window.location.href = 'profile-setup.html';
+                    const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || '../index.html';
+                    window.location.href = redirectUrl;
                 }
             }, 1500);
 
@@ -180,7 +175,7 @@ class EnhancedAuthSystem {
             this.showFormError(error.message);
         } finally {
             // Reset button state
-            submitButton.textContent = originalText;
+            submitButton.innerHTML = originalText;
             submitButton.disabled = false;
         }
     }
@@ -189,101 +184,244 @@ class EnhancedAuthSystem {
         event.preventDefault();
         
         const formData = new FormData(event.target);
-        const fullName = formData.get('fullName')?.trim();
-        const email = formData.get('email')?.trim();
-        const phone = formData.get('phone')?.trim();
-        const craft = formData.get('craft');
-        const password = formData.get('password');
-        const confirmPassword = formData.get('confirmPassword');
+        
+        // Get form data based on form type
+        const isArtistForm = event.target.id === 'artist-register-form';
+        
+        let userData;
+        if (isArtistForm) {
+            userData = {
+                firstName: formData.get('firstName')?.trim(),
+                lastName: formData.get('lastName')?.trim(),
+                email: formData.get('email')?.trim(),
+                password: formData.get('password'),
+                confirmPassword: formData.get('confirmPassword'),
+                craftSpecialty: formData.get('craftSpecialty'),
+                terms: formData.get('terms'),
+                newsletter: formData.get('newsletter'),
+                isArtisan: true
+            };
+        } else {
+            userData = {
+                fullName: formData.get('fullName')?.trim(),
+                email: formData.get('email')?.trim(),
+                phone: formData.get('phone')?.trim(),
+                password: formData.get('password'),
+                confirmPassword: formData.get('confirmPassword'),
+                terms: formData.get('terms'),
+                newsletter: formData.get('newsletter'),
+                isArtisan: false
+            };
+        }
 
         // Clear previous errors
         this.clearFormErrors();
 
-        // Validate input
-        if (!fullName || !email || !craft || !password || !confirmPassword) {
-            this.showFormError('Please fill in all required fields');
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            this.showFormError('Passwords do not match');
-            return;
-        }
-
-        if (password.length < 8) {
-            this.showFormError('Password must be at least 8 characters long');
+        // Validate form
+        if (!this.validateRegistrationForm(userData, isArtistForm)) {
             return;
         }
 
         // Show loading state
         const submitButton = event.target.querySelector('button[type="submit"]');
-        const originalText = submitButton.textContent;
-        submitButton.textContent = 'Creating account...';
+        const originalText = submitButton.innerHTML;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
         submitButton.disabled = true;
 
         try {
             // Check if user already exists
-            const existingUserResult = await this.db.getUser(email);
-            if (existingUserResult.success && existingUserResult.data) {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            if (users.find(u => u.email === userData.email)) {
                 throw new Error('An account with this email already exists');
             }
 
             // Create user account
-            const userData = {
-                fullName,
-                email,
-                phone,
-                password, // In real app, this would be hashed
-                isArtisan: true,
-                profileCompleted: false
-            };
-
-            const userResult = await this.db.createUser(userData);
-            if (!userResult.success) {
-                throw new Error(userResult.error || 'Failed to create user account');
-            }
-
-            // Create artisan profile
-            const artisanData = {
-                user_id: userResult.data.id,
-                craft: craft,
-                bio: '',
-                location: '',
-                shop_visible: true,
-                email_notifications: true,
-                marketing_emails: false,
-                monthly_reports: true
-            };
-
-            const artisanResult = await this.db.createArtisan(artisanData);
-            if (!artisanResult.success) {
-                console.warn('Failed to create artisan profile:', artisanResult.error);
-            }
-
-            // Set current user
-            this.currentUser = {
-                ...userResult.data,
-                artisanProfile: artisanResult.data
+            const newUser = {
+                id: this.generateId(),
+                email: userData.email,
+                password: userData.password, // In real app, this would be hashed
+                fullName: isArtistForm ? `${userData.firstName} ${userData.lastName}` : userData.fullName,
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                phone: userData.phone,
+                isArtisan: userData.isArtisan,
+                craftSpecialty: userData.craftSpecialty,
+                profileCompleted: !userData.isArtisan, // Customers don't need profile setup
+                newsletter: !!userData.newsletter,
+                created_at: new Date().toISOString()
             };
 
             // Save to localStorage
-            localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Also try to save to database
+            if (this.db) {
+                await this.db.createUser(newUser);
+            }
+
+            // Set current user
+            this.currentUser = newUser;
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+
+            // Use session manager if available
+            if (window.sessionManager) {
+                window.sessionManager.setUser(newUser, true);
+            }
 
             // Show success message
-            this.showNotification('Account created successfully! Please complete your profile.', 'success');
+            this.showNotification('Account created successfully! Welcome to ArtisanHub!', 'success');
 
-            // Redirect to profile setup
+            // Redirect based on user type
             setTimeout(() => {
-                window.location.href = 'profile-setup.html';
-            }, 1500);
+                if (newUser.isArtisan) {
+                    window.location.href = 'profile-setup.html';
+                } else {
+                    const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || '../index.html';
+                    window.location.href = redirectUrl;
+                }
+            }, 2000);
 
         } catch (error) {
             console.error('Registration error:', error);
             this.showFormError(error.message);
         } finally {
             // Reset button state
-            submitButton.textContent = originalText;
+            submitButton.innerHTML = originalText;
             submitButton.disabled = false;
+        }
+    }
+
+    validateRegistrationForm(data, isArtistForm) {
+        let isValid = true;
+
+        // Clear all errors first
+        this.clearFormErrors();
+
+        if (isArtistForm) {
+            // Validate artist form
+            if (!data.firstName || data.firstName.length < 2) {
+                this.showFormError('First name must be at least 2 characters');
+                isValid = false;
+            }
+
+            if (!data.lastName || data.lastName.length < 2) {
+                this.showFormError('Last name must be at least 2 characters');
+                isValid = false;
+            }
+
+            if (!data.craftSpecialty) {
+                this.showFormError('Please select your primary craft specialty');
+                isValid = false;
+            }
+        } else {
+            // Validate user form
+            if (!data.fullName || data.fullName.length < 2) {
+                this.showFormError('Full name must be at least 2 characters');
+                isValid = false;
+            }
+        }
+
+        // Common validations
+        if (!this.isValidEmail(data.email)) {
+            this.showFormError('Please enter a valid email address');
+            isValid = false;
+        }
+
+        if (!data.password || data.password.length < 8) {
+            this.showFormError('Password must be at least 8 characters long');
+            isValid = false;
+        }
+
+        if (data.password !== data.confirmPassword) {
+            this.showFormError('Passwords do not match');
+            isValid = false;
+        }
+
+        if (!data.terms) {
+            this.showFormError('You must agree to the Terms of Service');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    async checkAuthState() {
+        // Check for existing session
+        const storedUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
+        
+        if (storedUser) {
+            try {
+                this.currentUser = JSON.parse(storedUser);
+                this.updateAuthUI();
+            } catch (error) {
+                console.error('Error parsing stored user:', error);
+                this.logout();
+            }
+        }
+    }
+
+    updateAuthUI() {
+        // Update authentication UI elements
+        const authActions = document.getElementById('auth-actions');
+        const authButtons = document.getElementById('auth-buttons');
+        const userMenu = document.getElementById('user-menu');
+        const userName = document.getElementById('user-name');
+
+        if (this.currentUser) {
+            // User is logged in
+            if (authButtons) authButtons.style.display = 'none';
+            if (userMenu) userMenu.style.display = 'flex';
+            if (userName) userName.textContent = this.currentUser.fullName || this.currentUser.email;
+
+            // Update auth actions if present
+            if (authActions) {
+                authActions.innerHTML = `
+                    <div class="user-menu">
+                        <button class="user-menu-toggle" id="user-menu-toggle">
+                            <i class="fas fa-user"></i>
+                            <span>${this.currentUser.fullName || this.currentUser.email}</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="user-dropdown" id="user-dropdown">
+                            ${this.currentUser.isArtisan ? 
+                                '<a href="dashboard.html" class="dropdown-item"><i class="fas fa-palette"></i> Dashboard</a>' : 
+                                '<a href="become-artisan.html" class="dropdown-item"><i class="fas fa-palette"></i> Become Artisan</a>'
+                            }
+                            <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+                            <a href="orders.html" class="dropdown-item"><i class="fas fa-box"></i> Orders</a>
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-item logout-btn" onclick="enhancedAuthSystem.logout()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                // Setup dropdown toggle
+                const userMenuToggle = document.getElementById('user-menu-toggle');
+                const userDropdown = document.getElementById('user-dropdown');
+                
+                if (userMenuToggle && userDropdown) {
+                    userMenuToggle.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        userDropdown.classList.toggle('active');
+                    });
+                    
+                    document.addEventListener('click', () => {
+                        userDropdown.classList.remove('active');
+                    });
+                }
+            }
+        } else {
+            // User is not logged in
+            if (authButtons) authButtons.style.display = 'flex';
+            if (userMenu) userMenu.style.display = 'none';
         }
     }
 
@@ -331,9 +469,8 @@ class EnhancedAuthSystem {
 
     validateEmail(input) {
         const email = input.value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         
-        if (email && !emailRegex.test(email)) {
+        if (email && !this.isValidEmail(email)) {
             this.showFieldError(input, 'Please enter a valid email address');
             return false;
         } else {
@@ -344,43 +481,49 @@ class EnhancedAuthSystem {
 
     checkPasswordStrength(input) {
         const password = input.value;
-        const strengthIndicator = input.parentNode.querySelector('.password-strength');
+        const strengthContainer = input.parentNode.parentNode.querySelector('.password-strength') || 
+                                input.parentNode.querySelector('.password-strength');
         
-        if (!strengthIndicator) return;
+        if (!strengthContainer) return;
 
         let strength = 0;
         let feedback = [];
 
-        // Length check
         if (password.length >= 8) strength++;
-        else feedback.push('At least 8 characters');
+        else if (password.length > 0) feedback.push('At least 8 characters');
 
-        // Uppercase check
         if (/[A-Z]/.test(password)) strength++;
-        else feedback.push('One uppercase letter');
+        else if (password.length > 0) feedback.push('One uppercase letter');
 
-        // Lowercase check
         if (/[a-z]/.test(password)) strength++;
-        else feedback.push('One lowercase letter');
+        else if (password.length > 0) feedback.push('One lowercase letter');
 
-        // Number check
         if (/\d/.test(password)) strength++;
-        else feedback.push('One number');
+        else if (password.length > 0) feedback.push('One number');
 
-        // Special character check
         if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
-        else feedback.push('One special character');
+        else if (password.length > 0) feedback.push('One special character');
 
-        // Update strength indicator
+        if (password.length === 0) {
+            strengthContainer.innerHTML = '';
+            return;
+        }
+
         const strengthLevels = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
         const strengthColors = ['#ff4757', '#ff7675', '#fdcb6e', '#00b894', '#00cec9'];
         
         const level = Math.min(strength, 4);
-        strengthIndicator.textContent = `Password Strength: ${strengthLevels[level]}`;
-        strengthIndicator.style.color = strengthColors[level];
+        strengthContainer.innerHTML = `
+            <div class="strength-indicator">
+                <div class="strength-bar">
+                    <div class="strength-fill" style="width: ${(strength / 5) * 100}%; background: ${strengthColors[level]};"></div>
+                </div>
+                <span style="color: ${strengthColors[level]}; font-size: 0.85rem;">${strengthLevels[level]}</span>
+            </div>
+        `;
         
-        if (feedback.length > 0 && password.length > 0) {
-            strengthIndicator.innerHTML += `<br><small>Missing: ${feedback.join(', ')}</small>`;
+        if (feedback.length > 0) {
+            strengthContainer.innerHTML += `<small style="color: #666; font-size: 0.8rem;">Missing: ${feedback.join(', ')}</small>`;
         }
     }
 
@@ -403,69 +546,61 @@ class EnhancedAuthSystem {
         const errorElement = document.createElement('div');
         errorElement.className = 'field-error';
         errorElement.textContent = message;
+        errorElement.style.cssText = 'color: #e74c3c; font-size: 0.85rem; margin-top: 5px;';
         
         input.classList.add('error');
-        input.parentNode.appendChild(errorElement);
+        input.parentNode.parentNode.appendChild(errorElement);
     }
 
     clearFieldError(input) {
         input.classList.remove('error');
-        const errorElement = input.parentNode.querySelector('.field-error');
+        const errorElement = input.parentNode.parentNode.querySelector('.field-error');
         if (errorElement) {
             errorElement.remove();
         }
     }
 
     showFormError(message) {
-        const errorElement = document.querySelector('.form-error') || this.createErrorElement();
+        let errorElement = document.querySelector('.form-error');
+        
+        if (!errorElement) {
+            errorElement = document.createElement('div');
+            errorElement.className = 'form-error';
+            errorElement.style.cssText = `
+                background: #ffebee;
+                color: #c62828;
+                padding: 12px 16px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                border-left: 4px solid #e74c3c;
+                font-size: 0.9rem;
+            `;
+            
+            const activeForm = document.querySelector('form:not([style*="none"])');
+            if (activeForm) {
+                activeForm.insertBefore(errorElement, activeForm.firstChild);
+            }
+        }
+        
         errorElement.textContent = message;
         errorElement.style.display = 'block';
     }
 
     clearFormErrors() {
-        const errorElement = document.querySelector('.form-error');
-        if (errorElement) {
-            errorElement.style.display = 'none';
-        }
+        const errorElements = document.querySelectorAll('.form-error');
+        errorElements.forEach(element => {
+            element.style.display = 'none';
+        });
+
+        const fieldErrors = document.querySelectorAll('.field-error');
+        fieldErrors.forEach(error => error.remove());
+
+        const errorInputs = document.querySelectorAll('.form-input.error');
+        errorInputs.forEach(input => input.classList.remove('error'));
     }
 
-    createErrorElement() {
-        const errorElement = document.createElement('div');
-        errorElement.className = 'form-error';
-        errorElement.style.display = 'none';
-        
-        // Add to the active form
-        const activeForm = document.querySelector('#artist-login-section:not([style*="none"]) form, #artist-register-section:not([style*="none"]) form');
-        if (activeForm) {
-            activeForm.insertBefore(errorElement, activeForm.firstChild);
-        }
-        
-        return errorElement;
-    }
-
-    updateAuthUI() {
-        if (this.currentUser) {
-            // Update user display elements
-            const userNameElements = document.querySelectorAll('.user-name, #user-name');
-            userNameElements.forEach(element => {
-                element.textContent = this.currentUser.fullName || this.currentUser.email;
-            });
-
-            // Update avatar if available
-            const avatarElements = document.querySelectorAll('.avatar-img');
-            if (this.currentUser.avatar_url) {
-                avatarElements.forEach(avatar => {
-                    avatar.src = this.currentUser.avatar_url;
-                });
-            }
-
-            // Show/hide auth elements
-            const loginButtons = document.querySelectorAll('#login-btn, #register-btn');
-            const userMenus = document.querySelectorAll('.user-menu');
-            
-            loginButtons.forEach(btn => btn.style.display = 'none');
-            userMenus.forEach(menu => menu.style.display = 'flex');
-        }
+    async handleSocialLogin(provider) {
+        this.showNotification(`${provider} login coming soon!`, 'info');
     }
 
     async logout() {
@@ -473,6 +608,12 @@ class EnhancedAuthSystem {
             // Clear current user
             this.currentUser = null;
             localStorage.removeItem('currentUser');
+            sessionStorage.removeItem('currentUser');
+            
+            // Use session manager if available
+            if (window.sessionManager) {
+                window.sessionManager.logout();
+            }
             
             // Show success message
             this.showNotification('Logged out successfully', 'success');
@@ -493,9 +634,50 @@ class EnhancedAuthSystem {
         if (window.showNotification) {
             window.showNotification(message, type);
         } else {
-            // Fallback to simple alert
-            alert(message);
+            // Create inline notification
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#4caf50' : type === 'error' ? '#f44336' : '#2196f3'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                max-width: 400px;
+                opacity: 0;
+                transform: translateX(100%);
+                transition: all 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
         }
+    }
+
+    generateId() {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2);
     }
 
     // Public methods for other modules
@@ -508,7 +690,7 @@ class EnhancedAuthSystem {
     }
 
     isArtisan() {
-        return this.currentUser?.is_artisan || false;
+        return this.currentUser?.isArtisan || false;
     }
 }
 
