@@ -31,6 +31,52 @@ class DatabaseService {
         }
     }
 
+    // ==================== AUTH INTEGRATION ====================
+
+    async signUp(email, password, userData) {
+        try {
+            const { data, error } = await this.supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: userData
+                }
+            });
+
+            if (error) throw error;
+            return { success: true, data };
+        } catch (error) {
+            console.error('Error signing up:', error);
+            return { success: false, error: error.message };
+        }
+    }
+
+    async signIn(email, password) {
+        try {
+            const { data, error } = await this.supabase.auth.signInWithPassword({
+                email,
+                password
+            });
+
+            if (error) throw error;
+            return { success: true, data };
+        } catch (error) {
+            console.error('Error signing in:', error);
+            return { success: false, error: error.message };
+        }
+    }
+
+    async signOut() {
+        try {
+            const { error } = await this.supabase.auth.signOut();
+            if (error) throw error;
+            return { success: true };
+        } catch (error) {
+            console.error('Error signing out:', error);
+            return { success: false, error: error.message };
+        }
+    }
+
     // ==================== USER MANAGEMENT ====================
 
     async createUser(userData) {
@@ -39,12 +85,12 @@ class DatabaseService {
                 const { data, error } = await this.supabase
                     .from('users')
                     .insert([{
+                        id: userData.id,
                         email: userData.email,
-                        full_name: userData.fullName,
+                        full_name: userData.fullName || userData.full_name,
                         phone: userData.phone,
-                        is_artisan: userData.isArtisan || false,
-                        profile_completed: userData.profileCompleted || false,
-                        created_at: new Date().toISOString()
+                        is_artisan: userData.isArtisan || userData.is_artisan || false,
+                        profile_completed: userData.profileCompleted || userData.profile_completed || false
                     }])
                     .select()
                     .single();
@@ -57,7 +103,8 @@ class DatabaseService {
                 const newUser = {
                     id: this.generateId(),
                     ...userData,
-                    created_at: new Date().toISOString()
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
                 };
                 users.push(newUser);
                 localStorage.setItem('users', JSON.stringify(users));
