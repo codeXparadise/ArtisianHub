@@ -5,6 +5,13 @@ ArtisanHub is a modern, responsive e-commerce platform designed for artisans and
 ## Teaser Video
 [Watch the teaser video](media/teaser.mp4)
 
+## Preview
+
+![Screenshot 2025-09-23 010748](media/Screenshot%202025-09-23%20010748.png)
+![Screenshot 2025-09-23 010823](media/Screenshot%202025-09-23%20010823.png)
+![Screenshot 2025-09-23 010916](media/Screenshot%202025-09-23%20010916.png)
+
+
 ## Table of Contents
 
 - [Features](#features)
@@ -117,12 +124,6 @@ ArtisianHub/
 
 4. **Real-time Updates:**
    - Dynamic content loading ensures users always view the latest data.
-
-## Screenshots
-
-![Screenshot 2025-09-23 010748](media/Screenshot%202025-09-23%20010748.png)
-![Screenshot 2025-09-23 010823](media/Screenshot%202025-09-23%20010823.png)
-![Screenshot 2025-09-23 010916](media/Screenshot%202025-09-23%20010916.png)
 
 ## Contributing
 
