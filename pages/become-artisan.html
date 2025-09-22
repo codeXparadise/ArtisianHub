@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Become an Artisan - ArtisanHub</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <a href="../index.html" style="text-decoration: none; color: inherit;">
+                    <h1 class="brand__logo">ArtisanHub</h1>
+                    <span class="brand__tagline">Handcrafted with Love</span>
+                </a>
+            </div>
+            
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="../index.html" class="nav__link">Home</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="marketplace.html" class="nav__link">Marketplace</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="artisans.html" class="nav__link">Artisans</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="become-artisan.html" class="nav__link active">Become Artisan</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav__actions">
+                <button class="cart-btn" id="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+                <div class="auth-buttons" id="auth-buttons">
+                    <button class="btn btn--outline" id="login-btn">Sign In</button>
+                    <button class="btn btn--primary" id="register-btn">Register</button>
+                </div>
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <div class="user-avatar" id="user-avatar">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="User" class="avatar-img">
+                        <span class="user-name" id="user-name">John Doe</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu">
+                        <a href="dashboard.html" class="dropdown-item">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Dashboard
+                        </a>
+                        <a href="profile.html" class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            Profile
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav__toggle" id="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="auth-hero">
+            <div class="container">
+                <div class="auth-hero__content">
+                    <h1 class="auth-hero__title">Join Our Community of Artisans</h1>
+                    <p class="auth-hero__description">
+                        Share your passion, showcase your craftsmanship, and connect with customers who appreciate handmade artistry.
+                    </p>
+                    <div class="auth-hero__features">
+                        <div class="feature-item">
+                            <i class="fas fa-store"></i>
+                            <span>Create Your Own Store</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-users"></i>
+                            <span>Reach Global Customers</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Grow Your Business</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Auth Forms Section -->
+        <section class="auth-section">
+            <div class="container">
+                <div class="auth-container">
+                    <!-- Login Form -->
+                    <div class="auth-form" id="login-form">
+                        <div class="auth-form__header">
+                            <h2 class="auth-form__title">Welcome Back</h2>
+                            <p class="auth-form__subtitle">Sign in to your artisan account</p>
+                        </div>
+                        
+                        <form class="form" id="artist-login-form">
+                            <div class="form-group">
+                                <label for="login-email" class="form-label">Email Address</label>
+                                <input type="email" id="login-email" name="email" class="form-input" required>
+                                <span class="form-error" id="login-email-error"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="login-password" class="form-label">Password</label>
+                                <div class="password-input">
+                                    <input type="password" id="login-password" name="password" class="form-input" required>
+                                    <button type="button" class="password-toggle" data-target="login-password">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <span class="form-error" id="login-password-error"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="remember" class="checkbox-input">
+                                    <span class="checkmark"></span>
+                                    Remember me
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn--primary btn--full">Sign In</button>
+                        </form>
+                        
+                        <div class="auth-form__footer">
+                            <p>Don't have an account? <button class="link-btn" id="show-register">Create one here</button></p>
+                        </div>
+                    </div>
+
+                    <!-- Register Form -->
+                    <div class="auth-form" id="register-form" style="display: none;">
+                        <div class="auth-form__header">
+                            <h2 class="auth-form__title">Become an Artisan</h2>
+                            <p class="auth-form__subtitle">Create your artisan account and start selling</p>
+                        </div>
+                        
+                        <form class="form" id="artist-register-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="register-first-name" class="form-label">First Name</label>
+                                    <input type="text" id="register-first-name" name="firstName" class="form-input" required>
+                                    <span class="form-error" id="register-first-name-error"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="register-last-name" class="form-label">Last Name</label>
+                                    <input type="text" id="register-last-name" name="lastName" class="form-input" required>
+                                    <span class="form-error" id="register-last-name-error"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="register-email" class="form-label">Email Address</label>
+                                <input type="email" id="register-email" name="email" class="form-input" required>
+                                <span class="form-error" id="register-email-error"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="register-password" class="form-label">Password</label>
+                                <div class="password-input">
+                                    <input type="password" id="register-password" name="password" class="form-input" required>
+                                    <button type="button" class="password-toggle" data-target="register-password">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <span class="form-error" id="register-password-error"></span>
+                                <div class="password-strength" id="password-strength"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirm-password" class="form-label">Confirm Password</label>
+                                <div class="password-input">
+                                    <input type="password" id="confirm-password" name="confirmPassword" class="form-input" required>
+                                    <button type="button" class="password-toggle" data-target="confirm-password">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <span class="form-error" id="confirm-password-error"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="craft-specialty" class="form-label">Primary Craft Specialty</label>
+                                <select id="craft-specialty" name="craftSpecialty" class="form-input" required>
+                                    <option value="">Select your primary craft</option>
+                                    <option value="pottery">Pottery & Ceramics</option>
+                                    <option value="textiles">Textiles & Fabrics</option>
+                                    <option value="woodwork">Woodwork & Furniture</option>
+                                    <option value="jewelry">Jewelry & Accessories</option>
+                                    <option value="art">Paintings & Art</option>
+                                    <option value="leather">Leather Goods</option>
+                                    <option value="metalwork">Metalwork</option>
+                                    <option value="glasswork">Glasswork</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <span class="form-error" id="craft-specialty-error"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="terms" class="checkbox-input" required>
+                                    <span class="checkmark"></span>
+                                    I agree to the <a href="#" class="link">Terms of Service</a> and <a href="#" class="link">Privacy Policy</a>
+                                </label>
+                                <span class="form-error" id="terms-error"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="newsletter" class="checkbox-input">
+                                    <span class="checkmark"></span>
+                                    Subscribe to our newsletter for tips and updates
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn--primary btn--full">Create Account</button>
+                        </form>
+                        
+                        <div class="auth-form__footer">
+                            <p>Already have an account? <button class="link-btn" id="show-login">Sign in here</button></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="benefits-section">
+            <div class="container">
+                <h2 class="section__title">Why Join ArtisanHub?</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h3 class="benefit-title">Global Reach</h3>
+                        <p class="benefit-description">
+                            Connect with customers from around the world who appreciate handcrafted quality and unique artistry.
+                        </p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3 class="benefit-title">Easy Store Setup</h3>
+                        <p class="benefit-description">
+                            Simple tools to showcase your work, manage inventory, and process orders without technical hassle.
+                        </p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                        <h3 class="benefit-title">Fair Pricing</h3>
+                        <p class="benefit-description">
+                            Keep more of what you earn with our competitive commission rates and transparent fee structure.
+                        </p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <h3 class="benefit-title">Community Support</h3>
+                        <p class="benefit-description">
+                            Join a supportive community of fellow artisans, share knowledge, and grow together.
+                        </p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3 class="benefit-title">Analytics & Insights</h3>
+                        <p class="benefit-description">
+                            Track your sales, understand your customers, and optimize your business with detailed analytics.
+                        </p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="benefit-title">Secure Payments</h3>
+                        <p class="benefit-description">
+                            Reliable and secure payment processing with multiple payment options for your customers.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <h3 class="footer__title">ArtisanHub</h3>
+                    <p class="footer__description">
+                        Connecting artisans with the world through beautiful handcrafted creations.
+                    </p>
+                    <div class="footer__social">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer__section">
+                    <h4 class="footer__subtitle">For Artisans</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Sell on ArtisanHub</a></li>
+                        <li><a href="#" class="footer__link">Seller Resources</a></li>
+                        <li><a href="#" class="footer__link">Artisan Stories</a></li>
+                        <li><a href="#" class="footer__link">Community</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__section">
+                    <h4 class="footer__subtitle">Support</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Help Center</a></li>
+                        <li><a href="#" class="footer__link">Contact Us</a></li>
+                        <li><a href="#" class="footer__link">Terms of Service</a></li>
+                        <li><a href="#" class="footer__link">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__section">
+                    <h4 class="footer__subtitle">Company</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">About Us</a></li>
+                        <li><a href="#" class="footer__link">Careers</a></li>
+                        <li><a href="#" class="footer__link">Press</a></li>
+                        <li><a href="#" class="footer__link">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    © 2025 ArtisanHub. All rights reserved. Made with love for artisans worldwide.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart__header">
+            <h3 class="cart__title">Shopping Cart</h3>
+            <button class="cart__close" id="cart-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart__content" id="cart-content">
+            <div class="cart__empty" id="cart-empty">
+                <i class="fas fa-shopping-cart empty__icon"></i>
+                <p class="empty__text">Your cart is empty</p>
+                <p class="empty__subtext">Add some beautiful handcrafted items to get started!</p>
+            </div>
+            <div class="cart__items" id="cart-items"></div>
+        </div>
+        <div class="cart__footer" id="cart-footer" style="display: none;">
+            <div class="cart__total">
+                <span class="total__label">Total: </span>
+                <span class="total__amount" id="cart-total">$0.00</span>
+            </div>
+            <button class="btn btn--primary btn--full">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/database-service.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/enhanced-auth.js"></script>
+</body>
+</html>

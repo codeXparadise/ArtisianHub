@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtisanHub - Marketplace for Handcrafted Arts</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <h1 class="brand__logo">ArtisanHub</h1>
+                <span class="brand__tagline">Handcrafted with Love</span>
+            </div>
+            
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="#home" class="nav__link active">Home</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="pages/marketplace.html" class="nav__link">Marketplace</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#artisans" class="nav__link">Artisans</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#categories" class="nav__link">Categories</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#about" class="nav__link">About</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav__actions">
+                <div class="search-box">
+                    <input type="text" placeholder="Search artisan products..." class="search__input" id="search-input">
+                    <i class="fas fa-search search__icon"></i>
+                </div>
+                <button class="cart-btn" id="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+                <!-- Authentication Actions - will be dynamically updated -->
+                <div class="auth-actions" id="auth-actions">
+                    <a href="pages/user-auth.html" class="btn btn--outline btn--sm" id="sign-in-btn">Sign In</a>
+                </div>
+            </div>
+
+            <div class="nav__toggle" id="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero__container container">
+                <div class="hero__content">
+                    <h1 class="hero__title">
+                        Discover Unique <span class="highlight">Handcrafted Arts</span> 
+                        from Talented Artisans
+                    </h1>
+                    <p class="hero__description">
+                        Connect with skilled artisans around the world and bring home one-of-a-kind 
+                        handmade treasures that tell a story of craftsmanship and creativity.
+                    </p>
+                    <div class="hero__buttons">
+                        <a href="pages/marketplace.html" class="btn btn--primary">Explore Marketplace</a>
+                        <a href="pages/become-artisan.html" class="btn btn--secondary">Become an Artisan</a>
+                    </div>
+                    <div class="hero__stats">
+                        <div class="stat">
+                            <span class="stat__number">10K+</span>
+                            <span class="stat__label">Artisans</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__number">50K+</span>
+                            <span class="stat__label">Products</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat__number">100+</span>
+                            <span class="stat__label">Countries</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero__image">
+                    <div class="hero__image-container">
+                        <div class="floating-card floating-card--1">
+                            <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop" alt="Handmade pottery">
+                            <div class="card-info">
+                                <span class="artisan-name">Sarah's Pottery</span>
+                                <span class="price">$45</span>
+                            </div>
+                        </div>
+                        <div class="floating-card floating-card--2">
+                            <img src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=200&h=200&fit=crop" alt="Handwoven textile">
+                            <div class="card-info">
+                                <span class="artisan-name">Maya Textiles</span>
+                                <span class="price">$89</span>
+                            </div>
+                        </div>
+                        <div class="floating-card floating-card--3">
+                            <img src="https://images.unsplash.com/photo-1596367407372-96cb88503db6?w=200&h=200&fit=crop" alt="Wooden craft">
+                            <div class="card-info">
+                                <span class="artisan-name">Wood & Wonders</span>
+                                <span class="price">$125</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="categories" id="categories">
+            <div class="container">
+                <h2 class="section__title">Shop by Category</h2>
+                <p class="section__subtitle">Explore our diverse collection of handcrafted arts</p>
+                
+                <div class="categories__grid">
+                    <div class="category-card">
+                        <div class="category__image">
+                            <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop" alt="Pottery">
+                            <div class="category__overlay">
+                                <span class="category__count">250+ items</span>
+                            </div>
+                        </div>
+                        <h3 class="category__title">Pottery & Ceramics</h3>
+                        <p class="category__description">Handcrafted bowls, vases, and decorative pieces</p>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category__image">
+                            <img src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=300&h=300&fit=crop" alt="Textiles">
+                            <div class="category__overlay">
+                                <span class="category__count">180+ items</span>
+                            </div>
+                        </div>
+                        <h3 class="category__title">Textiles & Fabrics</h3>
+                        <p class="category__description">Woven rugs, scarves, and traditional fabrics</p>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category__image">
+                            <img src="https://images.unsplash.com/photo-1596367407372-96cb88503db6?w=300&h=300&fit=crop" alt="Woodwork">
+                            <div class="category__overlay">
+                                <span class="category__count">320+ items</span>
+                            </div>
+                        </div>
+                        <h3 class="category__title">Woodwork & Furniture</h3>
+                        <p class="category__description">Carved sculptures, furniture, and home decor</p>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category__image">
+                            <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=300&h=300&fit=crop" alt="Jewelry">
+                            <div class="category__overlay">
+                                <span class="category__count">450+ items</span>
+                            </div>
+                        </div>
+                        <h3 class="category__title">Jewelry & Accessories</h3>
+                        <p class="category__description">Handmade necklaces, rings, and unique accessories</p>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category__image">
+                            <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=300&fit=crop" alt="Art">
+                            <div class="category__overlay">
+                                <span class="category__count">190+ items</span>
+                            </div>
+                        </div>
+                        <h3 class="category__title">Paintings & Art</h3>
+                        <p class="category__description">Original paintings, prints, and wall art</p>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="category__image">
+                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=300&h=300&fit=crop" alt="Leather">
+                            <div class="category__overlay">
+                                <span class="category__count">140+ items</span>
+                            </div>
+                        </div>
+                        <h3 class="category__title">Leather Goods</h3>
+                        <p class="category__description">Handcrafted bags, wallets, and leather accessories</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Artisans Section -->
+        <section class="featured-artisans" id="artisans">
+            <div class="container">
+                <h2 class="section__title">Featured Artisans</h2>
+                <p class="section__subtitle">Meet the talented creators behind these beautiful works</p>
+                
+                <div class="artisans__grid">
+                    <div class="artisan-card">
+                        <div class="artisan__image">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop" alt="Sarah Martinez">
+                            <div class="artisan__badge">Verified</div>
+                        </div>
+                        <div class="artisan__info">
+                            <h3 class="artisan__name">Sarah Martinez</h3>
+                            <p class="artisan__craft">Master Potter</p>
+                            <div class="artisan__location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Santa Fe, New Mexico</span>
+                            </div>
+                            <p class="artisan__bio">Creating beautiful ceramics inspired by Southwestern traditions for over 15 years.</p>
+                            <div class="artisan__stats">
+                                <div class="stat">
+                                    <span class="stat__number">45</span>
+                                    <span class="stat__label">Products</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat__number">4.9</span>
+                                    <span class="stat__label">Rating</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat__number">230</span>
+                                    <span class="stat__label">Sales</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="artisan-card">
+                        <div class="artisan__image">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop" alt="Marcus Chen">
+                            <div class="artisan__badge">Verified</div>
+                        </div>
+                        <div class="artisan__info">
+                            <h3 class="artisan__name">Marcus Chen</h3>
+                            <p class="artisan__craft">Wood Sculptor</p>
+                            <div class="artisan__location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Portland, Oregon</span>
+                            </div>
+                            <p class="artisan__bio">Specializing in sustainable wood art and furniture with modern minimalist design.</p>
+                            <div class="artisan__stats">
+                                <div class="stat">
+                                    <span class="stat__number">32</span>
+                                    <span class="stat__label">Products</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat__number">4.8</span>
+                                    <span class="stat__label">Rating</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat__number">180</span>
+                                    <span class="stat__label">Sales</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="artisan-card">
+                        <div class="artisan__image">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop" alt="Elena Rossi">
+                            <div class="artisan__badge">Verified</div>
+                        </div>
+                        <div class="artisan__info">
+                            <h3 class="artisan__name">Elena Rossi</h3>
+                            <p class="artisan__craft">Textile Artist</p>
+                            <div class="artisan__location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Florence, Italy</span>
+                            </div>
+                            <p class="artisan__bio">Hand-weaving traditional Italian fabrics using techniques passed down through generations.</p>
+                            <div class="artisan__stats">
+                                <div class="stat">
+                                    <span class="stat__number">68</span>
+                                    <span class="stat__label">Products</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat__number">5.0</span>
+                                    <span class="stat__label">Rating</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat__number">340</span>
+                                    <span class="stat__label">Sales</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Products Section -->
+        <section class="featured-products" id="marketplace">
+            <div class="container">
+                <div class="section__header">
+                    <div>
+                        <h2 class="section__title">Featured Products</h2>
+                        <p class="section__subtitle">Discover our handpicked selection of exceptional handcrafted items</p>
+                    </div>
+                    <button class="btn btn--outline">View All Products</button>
+                </div>
+                
+                <div class="products__grid" id="featured-products-grid">
+                    <div class="product-card">
+                        <div class="product__image">
+                            <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop" alt="Handcrafted Ceramic Bowl">
+                            <div class="product__actions">
+                                <button class="btn-icon wishlist-btn">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="btn-icon quick-view-btn">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                            </div>
+                            <span class="product__badge">Featured</span>
+                        </div>
+                        <div class="product__info">
+                            <div class="product__category">Pottery</div>
+                            <h3 class="product__title">Handcrafted Ceramic Bowl Set</h3>
+                            <p class="product__artisan">by Sarah Martinez</p>
+                            <div class="product__rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-count">(24)</span>
+                            </div>
+                            <div class="product__price">
+                                <span class="price-current">$89.99</span>
+                                <span class="price-original">$119.99</span>
+                            </div>
+                            <button class="btn btn--primary btn--full add-to-cart-btn" data-product-id="1">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product__image">
+                            <img src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=400&h=400&fit=crop" alt="Handwoven Textile">
+                            <div class="product__actions">
+                                <button class="btn-icon wishlist-btn">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="btn-icon quick-view-btn">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product__info">
+                            <div class="product__category">Textiles</div>
+                            <h3 class="product__title">Traditional Handwoven Tapestry</h3>
+                            <p class="product__artisan">by Elena Rossi</p>
+                            <div class="product__rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-count">(18)</span>
+                            </div>
+                            <div class="product__price">
+                                <span class="price-current">$245.00</span>
+                            </div>
+                            <button class="btn btn--primary btn--full add-to-cart-btn" data-product-id="2">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product__image">
+                            <img src="https://images.unsplash.com/photo-1596367407372-96cb88503db6?w=400&h=400&fit=crop" alt="Wooden Sculpture">
+                            <div class="product__actions">
+                                <button class="btn-icon wishlist-btn">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="btn-icon quick-view-btn">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                            </div>
+                            <span class="product__badge">Limited Edition</span>
+                        </div>
+                        <div class="product__info">
+                            <div class="product__category">Woodwork</div>
+                            <h3 class="product__title">Modern Wood Sculpture</h3>
+                            <p class="product__artisan">by Marcus Chen</p>
+                            <div class="product__rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="rating-count">(12)</span>
+                            </div>
+                            <div class="product__price">
+                                <span class="price-current">$380.00</span>
+                            </div>
+                            <button class="btn btn--primary btn--full add-to-cart-btn" data-product-id="3">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product__image">
+                            <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop" alt="Handmade Jewelry">
+                            <div class="product__actions">
+                                <button class="btn-icon wishlist-btn">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <button class="btn-icon quick-view-btn">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product__info">
+                            <div class="product__category">Jewelry</div>
+                            <h3 class="product__title">Sterling Silver Pendant Necklace</h3>
+                            <p class="product__artisan">by Luna Crafts</p>
+                            <div class="product__rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-count">(31)</span>
+                            </div>
+                            <div class="product__price">
+                                <span class="price-current">$125.00</span>
+                            </div>
+                            <button class="btn btn--primary btn--full add-to-cart-btn" data-product-id="4">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about" id="about">
+            <div class="container">
+                <div class="about__content">
+                    <div class="about__text">
+                        <h2 class="section__title">About ArtisanHub</h2>
+                        <p class="about__description">
+                            ArtisanHub is more than just a marketplace – it's a community that celebrates 
+                            the art of handcrafted creation. We connect passionate artisans with customers 
+                            who appreciate the beauty, quality, and story behind every handmade piece.
+                        </p>
+                        <p class="about__description">
+                            Our platform empowers creators to showcase their unique talents while providing 
+                            customers with access to one-of-a-kind treasures that can't be found anywhere else. 
+                            Every purchase supports independent artisans and helps preserve traditional crafting techniques.
+                        </p>
+                        <div class="about__features">
+                            <div class="feature">
+                                <i class="fas fa-shield-alt feature__icon"></i>
+                                <div class="feature__content">
+                                    <h4 class="feature__title">Quality Guarantee</h4>
+                                    <p class="feature__description">Every product is carefully vetted for quality and authenticity</p>
+                                </div>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-shipping-fast feature__icon"></i>
+                                <div class="feature__content">
+                                    <h4 class="feature__title">Secure Shipping</h4>
+                                    <p class="feature__description">Safe and insured delivery worldwide</p>
+                                </div>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-heart feature__icon"></i>
+                                <div class="feature__content">
+                                    <h4 class="feature__title">Support Artisans</h4>
+                                    <p class="feature__description">Direct support to independent creators</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about__image">
+                        <img src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=600&h=600&fit=crop" alt="Artisan at work">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <h3 class="footer__title">ArtisanHub</h3>
+                    <p class="footer__description">
+                        Connecting artisans with the world through beautiful handcrafted creations.
+                    </p>
+                    <div class="footer__social">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer__section">
+                    <h4 class="footer__subtitle">Shop</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">All Products</a></li>
+                        <li><a href="#" class="footer__link">Categories</a></li>
+                        <li><a href="#" class="footer__link">Featured</a></li>
+                        <li><a href="#" class="footer__link">New Arrivals</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__section">
+                    <h4 class="footer__subtitle">Artisans</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Become an Artisan</a></li>
+                        <li><a href="#" class="footer__link">Artisan Stories</a></li>
+                        <li><a href="#" class="footer__link">Resources</a></li>
+                        <li><a href="#" class="footer__link">Community</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__section">
+                    <h4 class="footer__subtitle">Support</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Help Center</a></li>
+                        <li><a href="#" class="footer__link">Shipping Info</a></li>
+                        <li><a href="#" class="footer__link">Returns</a></li>
+                        <li><a href="#" class="footer__link">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    © 2025 ArtisanHub. All rights reserved. Made with love for artisans worldwide.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart__header">
+            <h3 class="cart__title">Shopping Cart</h3>
+            <button class="cart__close" id="cart-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart__content" id="cart-content">
+            <div class="cart__empty" id="cart-empty">
+                <i class="fas fa-shopping-cart empty__icon"></i>
+                <p class="empty__text">Your cart is empty</p>
+                <p class="empty__subtext">Add some beautiful handcrafted items to get started!</p>
+            </div>
+            <div class="cart__items" id="cart-items"></div>
+        </div>
+        <div class="cart__footer" id="cart-footer" style="display: none;">
+            <div class="cart__total">
+                <span class="total__label">Total: </span>
+                <span class="total__amount" id="cart-total">$0.00</span>
+            </div>
+            <button class="btn btn--primary btn--full">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/database-service.js"></script>
+    <script src="js/session-manager.js"></script>
+    <script src="js/user-data-manager.js"></script>
+    <script src="js/homepage-manager.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

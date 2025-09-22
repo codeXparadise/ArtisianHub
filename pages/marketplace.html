@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace - ArtisanHub</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <a href="../index.html" style="text-decoration: none; color: inherit;">
+                    <h1 class="brand__logo">ArtisanHub</h1>
+                    <span class="brand__tagline">Handcrafted with Love</span>
+                </a>
+            </div>
+            
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="../index.html" class="nav__link">Home</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="marketplace.html" class="nav__link active">Marketplace</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#artisans" class="nav__link">Artisans</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#categories" class="nav__link">Categories</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#about" class="nav__link">About</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav__actions">
+                <div class="search-box">
+                    <input type="text" placeholder="Search artisan products..." class="search__input">
+                    <i class="fas fa-search search__icon"></i>
+                </div>
+                <button class="cart-btn" id="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+                <a href="user-auth.html" class="btn btn--outline btn--sm">Sign In</a>
+                <a href="become-artisan.html" class="btn btn--secondary btn--sm">Become an Artisan</a>
+            </div>
+
+            <div class="nav__toggle" id="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="../index.html" class="breadcrumb__link">Home</a>
+                    <span class="breadcrumb__separator">/</span>
+                    <span class="breadcrumb__current">Marketplace</span>
+                </div>
+                <h1 class="page-title">Artisan Marketplace</h1>
+                <p class="page-subtitle">Discover thousands of unique handcrafted items from talented artisans worldwide</p>
+            </div>
+        </section>
+
+        <!-- Filters Section -->
+        <section class="filters-section">
+            <div class="container">
+                <div class="filters-wrapper">
+                    <div class="filters-left">
+                        <button class="filter-toggle" id="filter-toggle">
+                            <i class="fas fa-filter"></i>
+                            Filters
+                        </button>
+                        <div class="active-filters" id="active-filters"></div>
+                    </div>
+                    <div class="filters-right">
+                        <div class="sort-dropdown">
+                            <select class="sort-select" id="sort-select">
+                                <option value="featured">Featured</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="newest">Newest First</option>
+                                <option value="rating">Highest Rated</option>
+                                <option value="popular">Most Popular</option>
+                            </select>
+                        </div>
+                        <div class="view-toggle">
+                            <button class="view-btn active" data-view="grid">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="view-btn" data-view="list">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="marketplace-products">
+            <div class="container">
+                <div class="marketplace-layout">
+                    <!-- Sidebar Filters -->
+                    <aside class="filters-sidebar" id="filters-sidebar">
+                        <div class="filter-group">
+                            <h3 class="filter-title">Categories</h3>
+                            <div class="filter-options">
+                                <label class="filter-option">
+                                    <input type="checkbox" name="category" value="pottery">
+                                    <span class="checkmark"></span>
+                                    Pottery & Ceramics <span class="count">(45)</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="category" value="textiles">
+                                    <span class="checkmark"></span>
+                                    Textiles & Fabrics <span class="count">(32)</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="category" value="woodwork">
+                                    <span class="checkmark"></span>
+                                    Woodwork & Furniture <span class="count">(28)</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="category" value="jewelry">
+                                    <span class="checkmark"></span>
+                                    Jewelry & Accessories <span class="count">(67)</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="category" value="art">
+                                    <span class="checkmark"></span>
+                                    Paintings & Art <span class="count">(23)</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="category" value="leather">
+                                    <span class="checkmark"></span>
+                                    Leather Goods <span class="count">(19)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h3 class="filter-title">Price Range</h3>
+                            <div class="price-range">
+                                <div class="price-inputs">
+                                    <input type="number" placeholder="Min" class="price-input" id="price-min">
+                                    <span class="price-separator">-</span>
+                                    <input type="number" placeholder="Max" class="price-input" id="price-max">
+                                </div>
+                                <div class="price-slider">
+                                    <input type="range" min="0" max="1000" value="0" class="slider" id="slider-min">
+                                    <input type="range" min="0" max="1000" value="1000" class="slider" id="slider-max">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h3 class="filter-title">Rating</h3>
+                            <div class="filter-options">
+                                <label class="filter-option">
+                                    <input type="radio" name="rating" value="5">
+                                    <span class="checkmark"></span>
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    </div>
+                                    <span class="count">(12)</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="radio" name="rating" value="4">
+                                    <span class="checkmark"></span>
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                    </div>
+                                    & Up <span class="count">(28)</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="radio" name="rating" value="3">
+                                    <span class="checkmark"></span>
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                                    </div>
+                                    & Up <span class="count">(45)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <h3 class="filter-title">Location</h3>
+                            <div class="filter-options">
+                                <label class="filter-option">
+                                    <input type="checkbox" name="location" value="usa">
+                                    <span class="checkmark"></span>
+                                    United States <span class="count">(89)</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="location" value="europe">
+                                    <span class="checkmark"></span>
+                                    Europe <span class="count">(67)</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="location" value="asia">
+                                    <span class="checkmark"></span>
+                                    Asia <span class="count">(45)</span>
+                                </label>
+                                <label class="filter-option">
+                                    <input type="checkbox" name="location" value="america">
+                                    <span class="checkmark"></span>
+                                    South America <span class="count">(23)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="btn btn--primary btn--full clear-filters">Clear All Filters</button>
+                    </aside>
+
+                    <!-- Products Grid -->
+                    <div class="products-main">
+                        <div class="products-header">
+                            <p class="results-count">Showing 1-24 of 214 products</p>
+                        </div>
+
+                        <div class="products__grid" id="products-grid">
+                            <!-- Product cards will be dynamically generated here -->
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            <button class="pagination__btn pagination__prev" disabled>
+                                <i class="fas fa-chevron-left"></i>
+                                Previous
+                            </button>
+                            <div class="pagination__numbers">
+                                <button class="pagination__number active">1</button>
+                                <button class="pagination__number">2</button>
+                                <button class="pagination__number">3</button>
+                                <span class="pagination__dots">...</span>
+                                <button class="pagination__number">12</button>
+                            </div>
+                            <button class="pagination__btn pagination__next">
+                                Next
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <h3 class="footer__title">ArtisanHub</h3>
+                    <p class="footer__description">
+                        Connecting artisans with the world through beautiful handcrafted creations.
+                    </p>
+                    <div class="footer__social">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer__section">
+                    <h4 class="footer__subtitle">Shop</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">All Products</a></li>
+                        <li><a href="#" class="footer__link">Categories</a></li>
+                        <li><a href="#" class="footer__link">Featured</a></li>
+                        <li><a href="#" class="footer__link">New Arrivals</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__section">
+                    <h4 class="footer__subtitle">Artisans</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Become an Artisan</a></li>
+                        <li><a href="#" class="footer__link">Artisan Stories</a></li>
+                        <li><a href="#" class="footer__link">Resources</a></li>
+                        <li><a href="#" class="footer__link">Community</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__section">
+                    <h4 class="footer__subtitle">Support</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Help Center</a></li>
+                        <li><a href="#" class="footer__link">Shipping Info</a></li>
+                        <li><a href="#" class="footer__link">Returns</a></li>
+                        <li><a href="#" class="footer__link">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    © 2025 ArtisanHub. All rights reserved. Made with love for artisans worldwide.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart__header">
+            <h3 class="cart__title">Shopping Cart</h3>
+            <button class="cart__close" id="cart-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart__content" id="cart-content">
+            <div class="cart__empty" id="cart-empty">
+                <i class="fas fa-shopping-cart empty__icon"></i>
+                <p class="empty__text">Your cart is empty</p>
+                <p class="empty__subtext">Add some beautiful handcrafted items to get started!</p>
+            </div>
+            <div class="cart__items" id="cart-items"></div>
+        </div>
+        <div class="cart__footer" id="cart-footer" style="display: none;">
+            <div class="cart__total">
+                <span class="total__label">Total: </span>
+                <span class="total__amount" id="cart-total">$0.00</span>
+            </div>
+            <button class="btn btn--primary btn--full">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/database-service.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/marketplace.js"></script>
+</body>
+</html>

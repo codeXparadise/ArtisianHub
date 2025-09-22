@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product - ArtisanHub</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        .product-upload-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .upload-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .upload-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .upload-subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .upload-form {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #ecf0f1;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-group-full {
+            grid-column: span 2;
+        }
+        
+        .image-upload-area {
+            border: 2px dashed #3498db;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .image-upload-area:hover {
+            border-color: #2980b9;
+            background: #e8f4fd;
+        }
+        
+        .image-upload-area.dragover {
+            border-color: #27ae60;
+            background: #e8f5e8;
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        
+        .upload-hint {
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+        
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .preview-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+        }
+        
+        .preview-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        
+        .preview-remove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .category-option {
+            position: relative;
+        }
+        
+        .category-input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .category-label {
+            display: block;
+            padding: 12px 16px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #495057;
+            font-weight: 500;
+        }
+        
+        .category-input:checked + .category-label {
+            border-color: #3498db;
+            background: #3498db;
+            color: white;
+        }
+        
+        .price-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .currency-symbol {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #3498db;
+            color: #3498db;
+        }
+        
+        .btn-outline:hover {
+            background: #3498db;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group-full {
+                grid-column: span 1;
+            }
+            
+            .upload-form {
+                padding: 30px 20px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <a href="../index.html" style="text-decoration: none; color: inherit;">
+                    <h1 class="brand__logo">ArtisanHub</h1>
+                    <span class="brand__tagline">Handcrafted with Love</span>
+                </a>
+            </div>
+            
+            <div class="nav__menu" id="nav-menu">
+                <a href="../index.html" class="nav__link">Home</a>
+                <a href="marketplace.html" class="nav__link">Marketplace</a>
+                <a href="dashboard.html" class="nav__link">Dashboard</a>
+                <a href="#" class="nav__link" onclick="logout()">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="product-upload-container">
+            <!-- Upload Header -->
+            <div class="upload-header">
+                <h1 class="upload-title">Add New Product</h1>
+                <p class="upload-subtitle">Share your beautiful creations with the world</p>
+            </div>
+
+            <!-- Upload Form -->
+            <form class="upload-form" id="product-upload-form">
+                <!-- Basic Information -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        Basic Information
+                    </h3>
+                    
+                    <div class="form-grid">
+                        <div class="form-group form-group-full">
+                            <label for="product-title" class="form-label">Product Title *</label>
+                            <input type="text" id="product-title" name="title" class="form-input" placeholder="Enter a catchy product title" required>
+                        </div>
+                        
+                        <div class="form-group form-group-full">
+                            <label for="product-description" class="form-label">Description *</label>
+                            <textarea id="product-description" name="description" class="form-input" rows="4" placeholder="Describe your product, materials used, inspiration, etc." required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="product-price" class="form-label">Price *</label>
+                            <div class="price-group">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="product-price" name="price" class="form-input" min="0" step="0.01" placeholder="0.00" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="product-quantity" class="form-label">Available Quantity *</label>
+                            <input type="number" id="product-quantity" name="quantity" class="form-input" min="1" placeholder="1" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Selection -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-tags"></i>
+                        Category
+                    </h3>
+                    
+                    <div class="category-grid">
+                        <div class="category-option">
+                            <input type="radio" id="cat-jewelry" name="category" value="jewelry" class="category-input" required>
+                            <label for="cat-jewelry" class="category-label">Jewelry</label>
+                        </div>
+                        <div class="category-option">
+                            <input type="radio" id="cat-pottery" name="category" value="pottery" class="category-input">
+                            <label for="cat-pottery" class="category-label">Pottery</label>
+                        </div>
+                        <div class="category-option">
+                            <input type="radio" id="cat-textiles" name="category" value="textiles" class="category-input">
+                            <label for="cat-textiles" class="category-label">Textiles</label>
+                        </div>
+                        <div class="category-option">
+                            <input type="radio" id="cat-woodwork" name="category" value="woodwork" class="category-input">
+                            <label for="cat-woodwork" class="category-label">Woodwork</label>
+                        </div>
+                        <div class="category-option">
+                            <input type="radio" id="cat-glasswork" name="category" value="glasswork" class="category-input">
+                            <label for="cat-glasswork" class="category-label">Glasswork</label>
+                        </div>
+                        <div class="category-option">
+                            <input type="radio" id="cat-metalwork" name="category" value="metalwork" class="category-input">
+                            <label for="cat-metalwork" class="category-label">Metalwork</label>
+                        </div>
+                        <div class="category-option">
+                            <input type="radio" id="cat-paintings" name="category" value="paintings" class="category-input">
+                            <label for="cat-paintings" class="category-label">Paintings</label>
+                        </div>
+                        <div class="category-option">
+                            <input type="radio" id="cat-sculptures" name="category" value="sculptures" class="category-input">
+                            <label for="cat-sculptures" class="category-label">Sculptures</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Images -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-images"></i>
+                        Product Images
+                    </h3>
+                    
+                    <div class="image-upload-area" id="image-upload-area">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <p class="upload-text">Drag and drop images here, or click to browse</p>
+                        <p class="upload-hint">Supports JPG, PNG, WEBP (Max 5MB each, up to 5 images)</p>
+                        <input type="file" id="image-input" accept="image/*" multiple style="display: none;">
+                    </div>
+                    
+                    <div class="image-preview" id="image-preview"></div>
+                </div>
+
+                <!-- Additional Details -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-cog"></i>
+                        Additional Details
+                    </h3>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="product-materials" class="form-label">Materials Used</label>
+                            <input type="text" id="product-materials" name="materials" class="form-input" placeholder="e.g., Sterling silver, cotton, oak wood">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="product-dimensions" class="form-label">Dimensions</label>
+                            <input type="text" id="product-dimensions" name="dimensions" class="form-input" placeholder="e.g., 10cm x 5cm x 2cm">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="product-weight" class="form-label">Weight</label>
+                            <input type="text" id="product-weight" name="weight" class="form-input" placeholder="e.g., 150g">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="product-care" class="form-label">Care Instructions</label>
+                            <input type="text" id="product-care" name="care" class="form-input" placeholder="e.g., Hand wash only, avoid moisture">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="history.back()">
+                        <i class="fas fa-arrow-left"></i>
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn--secondary" id="save-draft-btn">
+                        <i class="fas fa-save"></i>
+                        Save as Draft
+                    </button>
+                    <button type="submit" class="btn btn--primary">
+                        <i class="fas fa-upload"></i>
+                        Publish Product
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Error message container -->
+    <div class="form-error" style="display: none; position: fixed; top: 20px; right: 20px; background: #ffebee; color: #c62828; padding: 15px; border-radius: 8px; z-index: 1000; max-width: 400px;"></div>
+
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/database-service.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/product-upload.js"></script>
+</body>
+</html>

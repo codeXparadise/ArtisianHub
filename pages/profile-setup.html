@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Profile - ArtisanHub</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <a href="../index.html" style="text-decoration: none; color: inherit;">
+                    <h1 class="brand__logo">ArtisanHub</h1>
+                    <span class="brand__tagline">Handcrafted with Love</span>
+                </a>
+            </div>
+            
+            <div class="nav__actions">
+                <div class="user-menu" id="user-menu">
+                    <div class="user-avatar" id="user-avatar">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="User" class="avatar-img">
+                        <span class="user-name" id="user-name">John Doe</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu">
+                        <a href="dashboard.html" class="dropdown-item">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Dashboard
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Profile Setup Section -->
+        <section class="profile-setup">
+            <div class="container">
+                <div class="setup-header">
+                    <h1 class="setup-title">Complete Your Artist Profile</h1>
+                    <p class="setup-subtitle">Help customers discover your unique story and craftsmanship</p>
+                    
+                    <!-- Progress Bar -->
+                    <div class="progress-bar">
+                        <div class="progress-step active" data-step="1">
+                            <div class="step-number">1</div>
+                            <span class="step-label">Basic Info</span>
+                        </div>
+                        <div class="progress-step" data-step="2">
+                            <div class="step-number">2</div>
+                            <span class="step-label">Portfolio</span>
+                        </div>
+                        <div class="progress-step" data-step="3">
+                            <div class="step-number">3</div>
+                            <span class="step-label">Shop Setup</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setup-container">
+                    <!-- Step 1: Basic Information -->
+                    <div class="setup-step" id="step-1">
+                        <div class="step-content">
+                            <h2 class="step-title">Tell us about yourself</h2>
+                            <p class="step-description">This information will be displayed on your public artist profile</p>
+                            
+                            <form class="profile-form" id="basic-info-form">
+                                <!-- Profile Picture Upload -->
+                                <div class="upload-section">
+                                    <div class="upload-group">
+                                        <label class="upload-label">Profile Picture</label>
+                                        <div class="avatar-upload">
+                                            <div class="avatar-preview" id="avatar-preview">
+                                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" alt="Profile" id="avatar-image">
+                                                <div class="avatar-overlay">
+                                                    <i class="fas fa-camera"></i>
+                                                    <span>Change Photo</span>
+                                                </div>
+                                            </div>
+                                            <input type="file" id="avatar-input" accept="image/*" style="display: none;">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="upload-group">
+                                        <label class="upload-label">Cover Photo <span class="optional">(Optional)</span></label>
+                                        <div class="cover-upload" id="cover-upload">
+                                            <div class="cover-preview" id="cover-preview">
+                                                <div class="cover-placeholder">
+                                                    <i class="fas fa-image"></i>
+                                                    <span>Upload cover photo</span>
+                                                    <small>Recommended: 1200x400px</small>
+                                                </div>
+                                            </div>
+                                            <input type="file" id="cover-input" accept="image/*" style="display: none;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Basic Information -->
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="bio" class="form-label">Artist Bio</label>
+                                        <textarea id="bio" name="bio" class="form-textarea" rows="4" placeholder="Tell your story, describe your passion for craftsmanship, and what makes your work unique..."></textarea>
+                                        <div class="char-count">
+                                            <span id="bio-count">0</span>/500 characters
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="location" class="form-label">Location</label>
+                                            <input type="text" id="location" name="location" class="form-input" placeholder="City, Country">
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="phone" class="form-label">Phone Number <span class="optional">(Optional)</span></label>
+                                            <input type="tel" id="phone" name="phone" class="form-input" placeholder="+1 (555) 123-4567">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="website" class="form-label">Website <span class="optional">(Optional)</span></label>
+                                        <input type="url" id="website" name="website" class="form-input" placeholder="https://yourwebsite.com">
+                                    </div>
+                                    
+                                    <!-- Social Media -->
+                                    <div class="social-section">
+                                        <h3 class="section-subtitle">Social Media <span class="optional">(Optional)</span></h3>
+                                        <div class="social-grid">
+                                            <div class="form-group">
+                                                <label for="instagram" class="form-label">
+                                                    <i class="fab fa-instagram"></i> Instagram
+                                                </label>
+                                                <input type="text" id="instagram" name="instagram" class="form-input" placeholder="@yourusername">
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="facebook" class="form-label">
+                                                    <i class="fab fa-facebook"></i> Facebook
+                                                </label>
+                                                <input type="text" id="facebook" name="facebook" class="form-input" placeholder="facebook.com/yourpage">
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="twitter" class="form-label">
+                                                    <i class="fab fa-twitter"></i> Twitter
+                                                </label>
+                                                <input type="text" id="twitter" name="twitter" class="form-input" placeholder="@yourusername">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="step-actions">
+                            <button type="button" class="btn btn--primary" id="next-step-1">Continue</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Portfolio & Experience -->
+                    <div class="setup-step" id="step-2" style="display: none;">
+                        <div class="step-content">
+                            <h2 class="step-title">Showcase your expertise</h2>
+                            <p class="step-description">Highlight your experience, techniques, and achievements</p>
+                            
+                            <form class="profile-form" id="portfolio-form">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="experience" class="form-label">Years of Experience</label>
+                                        <select id="experience" name="experience" class="form-input">
+                                            <option value="">Select experience level</option>
+                                            <option value="beginner">Beginner (0-2 years)</option>
+                                            <option value="intermediate">Intermediate (3-5 years)</option>
+                                            <option value="experienced">Experienced (6-10 years)</option>
+                                            <option value="expert">Expert (10+ years)</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="techniques" class="form-label">Techniques & Skills</label>
+                                        <div class="tags-input" id="techniques-container">
+                                            <input type="text" id="techniques-input" placeholder="Type a technique and press Enter" class="tag-input">
+                                            <div class="tags-list" id="techniques-list"></div>
+                                        </div>
+                                        <small class="form-hint">Examples: Hand-throwing, Glazing, Weaving, Carving, etc.</small>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="achievements" class="form-label">Awards & Achievements <span class="optional">(Optional)</span></label>
+                                        <div class="achievement-list" id="achievement-list">
+                                            <div class="achievement-item">
+                                                <input type="text" class="form-input" placeholder="Achievement title" name="achievement-title[]">
+                                                <input type="text" class="form-input" placeholder="Year" name="achievement-year[]">
+                                                <button type="button" class="btn-icon remove-achievement">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn--outline btn--sm" id="add-achievement">
+                                            <i class="fas fa-plus"></i> Add Achievement
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Portfolio Images -->
+                                    <div class="form-group">
+                                        <label class="form-label">Portfolio Images <span class="optional">(Optional)</span></label>
+                                        <div class="portfolio-upload">
+                                            <div class="upload-area" id="portfolio-upload-area">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                                <span>Drag & drop images here or click to browse</span>
+                                                <small>Upload up to 10 images (JPG, PNG, max 5MB each)</small>
+                                                <input type="file" id="portfolio-input" accept="image/*" multiple style="display: none;">
+                                            </div>
+                                            <div class="portfolio-preview" id="portfolio-preview"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="step-actions">
+                            <button type="button" class="btn btn--outline" id="prev-step-2">Previous</button>
+                            <button type="button" class="btn btn--primary" id="next-step-2">Continue</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Shop Setup -->
+                    <div class="setup-step" id="step-3" style="display: none;">
+                        <div class="step-content">
+                            <h2 class="step-title">Set up your shop</h2>
+                            <p class="step-description">Configure your shop settings and preferences</p>
+                            
+                            <form class="profile-form" id="shop-form">
+                                <div class="form-grid">
+                                    <!-- Shop Settings -->
+                                    <div class="settings-section">
+                                        <h3 class="section-subtitle">Shop Visibility</h3>
+                                        <div class="form-group">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="publicProfile" class="checkbox-input" checked>
+                                                <span class="checkmark"></span>
+                                                Make my profile public and discoverable
+                                            </label>
+                                            <small class="form-hint">When enabled, customers can find your profile in search results and browse your products</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Notification Preferences -->
+                                    <div class="settings-section">
+                                        <h3 class="section-subtitle">Notification Preferences</h3>
+                                        <div class="form-group">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="emailNotifications" class="checkbox-input" checked>
+                                                <span class="checkmark"></span>
+                                                Email notifications for new orders
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="marketingEmails" class="checkbox-input">
+                                                <span class="checkmark"></span>
+                                                Marketing emails and tips for sellers
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" name="monthlyReport" class="checkbox-input" checked>
+                                                <span class="checkmark"></span>
+                                                Monthly sales and analytics reports
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Shop Policies -->
+                                    <div class="settings-section">
+                                        <h3 class="section-subtitle">Shop Policies <span class="optional">(Optional)</span></h3>
+                                        <div class="form-group">
+                                            <label for="shipping-policy" class="form-label">Shipping Policy</label>
+                                            <textarea id="shipping-policy" name="shippingPolicy" class="form-textarea" rows="3" placeholder="Describe your shipping methods, processing time, and costs..."></textarea>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="return-policy" class="form-label">Return Policy</label>
+                                            <textarea id="return-policy" name="returnPolicy" class="form-textarea" rows="3" placeholder="Describe your return and exchange policy..."></textarea>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="custom-orders" class="form-label">Custom Orders</label>
+                                            <textarea id="custom-orders" name="customOrders" class="form-textarea" rows="3" placeholder="Do you accept custom orders? Describe your process..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="step-actions">
+                            <button type="button" class="btn btn--outline" id="prev-step-3">Previous</button>
+                            <button type="button" class="btn btn--primary" id="complete-setup">Complete Profile</button>
+                        </div>
+                    </div>
+
+                    <!-- Completion Step -->
+                    <div class="setup-step" id="completion-step" style="display: none;">
+                        <div class="completion-content">
+                            <div class="completion-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h2 class="completion-title">Welcome to ArtisanHub!</h2>
+                            <p class="completion-description">
+                                Your profile has been created successfully. You can now start showcasing your beautiful creations and connect with customers worldwide.
+                            </p>
+                            
+                            <div class="completion-actions">
+                                <a href="dashboard.html" class="btn btn--primary">Go to Dashboard</a>
+                                <a href="add-product.html" class="btn btn--outline">Add Your First Product</a>
+                            </div>
+                            
+                            <div class="next-steps">
+                                <h3>Next Steps:</h3>
+                                <ul>
+                                    <li><i class="fas fa-plus"></i> Add your first product to start selling</li>
+                                    <li><i class="fas fa-store"></i> Customize your shop appearance</li>
+                                    <li><i class="fas fa-share"></i> Share your profile on social media</li>
+                                    <li><i class="fas fa-users"></i> Join our community of artisans</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/database-service.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/enhanced-auth.js"></script>
+    <script src="../js/profile-setup.js"></script>
+</body>
+</html>

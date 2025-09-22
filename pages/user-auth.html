@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join ArtisanHub - Login & Register</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <a href="../index.html" style="text-decoration: none; color: inherit;">
+                    <h1 class="brand__logo">ArtisanHub</h1>
+                    <span class="brand__tagline">Handcrafted with Love</span>
+                </a>
+            </div>
+            
+            <div class="nav__menu" id="nav-menu">
+                <a href="../index.html" class="nav__link">Home</a>
+                <a href="marketplace.html" class="nav__link">Marketplace</a>
+                <a href="#about" class="nav__link">About</a>
+                <a href="#contact" class="nav__link">Contact</a>
+            </div>
+            
+            <div class="nav__actions">
+                <a href="become-artisan.html" class="btn btn--outline btn--sm">Become an Artisan</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="auth-main">
+        <div class="container">
+            <div class="auth-container">
+                <!-- Auth Header -->
+                <div class="auth-header">
+                    <h1 class="auth-title">Join ArtisanHub</h1>
+                    <p class="auth-subtitle">Discover unique handcrafted treasures from talented artisans</p>
+                    
+                    <!-- Tab Navigation -->
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" id="login-tab">
+                            Sign In
+                        </button>
+                        <button class="auth-tab" id="register-tab">
+                            Create Account
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Login Form -->
+                <div class="auth-form-container" id="login-container">
+                    <form class="auth-form" id="user-login-form">
+                        <div class="form-error" style="display: none;"></div>
+                        
+                        <div class="form-group">
+                            <label for="login-email" class="form-label">Email Address</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope input-icon"></i>
+                                <input type="email" id="login-email" name="email" class="form-input" placeholder="Enter your email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="login-password" class="form-label">Password</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock input-icon"></i>
+                                <input type="password" id="login-password" name="password" class="form-input" placeholder="Enter your password" required>
+                                <button type="button" class="password-toggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="remember" class="checkbox-input">
+                                <span class="checkmark"></span>
+                                Remember me
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn--primary btn--full">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Sign In
+                        </button>
+                        
+                        <div class="auth-footer">
+                            <a href="#" class="auth-link">Forgot your password?</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Register Form -->
+                <div class="auth-form-container" id="register-container" style="display: none;">
+                    <form class="auth-form" id="user-register-form">
+                        <div class="form-error" style="display: none;"></div>
+                        
+                        <div class="form-group">
+                            <label for="register-name" class="form-label">Full Name</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user input-icon"></i>
+                                <input type="text" id="register-name" name="fullName" class="form-input" placeholder="Enter your full name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-email" class="form-label">Email Address</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope input-icon"></i>
+                                <input type="email" id="register-email" name="email" class="form-input" placeholder="Enter your email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-phone" class="form-label">Phone Number <span class="optional">(Optional)</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-phone input-icon"></i>
+                                <input type="tel" id="register-phone" name="phone" class="form-input" placeholder="Enter your phone number">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-password" class="form-label">Password</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock input-icon"></i>
+                                <input type="password" id="register-password" name="password" class="form-input" placeholder="Create a password" required>
+                                <button type="button" class="password-toggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-confirm-password" class="form-label">Confirm Password</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock input-icon"></i>
+                                <input type="password" id="register-confirm-password" name="confirmPassword" class="form-input" placeholder="Confirm your password" required>
+                                <button type="button" class="password-toggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="newsletter" class="checkbox-input">
+                                <span class="checkmark"></span>
+                                Subscribe to our newsletter for updates and special offers
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="terms" class="checkbox-input" required>
+                                <span class="checkmark"></span>
+                                I agree to the <a href="#" class="auth-link">Terms of Service</a> and <a href="#" class="auth-link">Privacy Policy</a>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn--primary btn--full">
+                            <i class="fas fa-user-plus"></i>
+                            Create Account
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Social Login Options -->
+                <div class="social-login">
+                    <div class="divider">
+                        <span>Or continue with</span>
+                    </div>
+                    
+                    <div class="social-buttons">
+                        <button class="social-btn google" id="google-login">
+                            <i class="fab fa-google"></i>
+                            Google
+                        </button>
+                        <button class="social-btn facebook" id="facebook-login">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Features Highlight -->
+                <div class="auth-features">
+                    <h3>Why Join ArtisanHub?</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <i class="fas fa-heart"></i>
+                            <div class="feature-content">
+                                <h4>Unique Handcrafted Items</h4>
+                                <p>Discover one-of-a-kind pieces made with love and skill</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <i class="fas fa-users"></i>
+                            <div class="feature-content">
+                                <h4>Support Local Artisans</h4>
+                                <p>Directly support talented creators and their craft</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <i class="fas fa-shopping-cart"></i>
+                            <div class="feature-content">
+                                <h4>Easy Shopping Experience</h4>
+                                <p>Simple cart, secure checkout, and fast shipping</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <i class="fas fa-star"></i>
+                            <div class="feature-content">
+                                <h4>Quality Guaranteed</h4>
+                                <p>Every item is carefully crafted and quality checked</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Notification Toast -->
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <span class="notification-message"></span>
+            <button class="notification-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/database-service.js"></script>
+    <script src="../js/session-manager.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/user-auth.js"></script>
+    
+    <!-- Additional user auth functionality -->
+    <script>
+        // Simple notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            // Add styles
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#4caf50' : type === 'error' ? '#f44336' : '#2196f3'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                max-width: 400px;
+                opacity: 0;
+                transform: translateX(100%);
+                transition: all 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
+        }
+        
+        // Make globally available
+        window.showNotification = showNotification;
+
+        // Tab switching functionality
+        function showForm(formType) {
+            const loginContainer = document.getElementById('login-container');
+            const registerContainer = document.getElementById('register-container');
+            const loginTab = document.getElementById('login-tab');
+            const registerTab = document.getElementById('register-tab');
+
+            if (formType === 'login') {
+                loginContainer.style.display = 'block';
+                registerContainer.style.display = 'none';
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+            } else {
+                loginContainer.style.display = 'none';
+                registerContainer.style.display = 'block';
+                loginTab.classList.remove('active');
+                registerTab.classList.add('active');
+            }
+
+            // Clear any previous errors
+            const errorElements = document.querySelectorAll('.form-error');
+            errorElements.forEach(element => {
+                element.style.display = 'none';
+            });
+        }
+
+        // Initialize with login form
+        document.addEventListener('DOMContentLoaded', () => {
+            showForm('login');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist Dashboard - ArtisanHub</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <a href="../index.html" style="text-decoration: none; color: inherit;">
+                    <h1 class="brand__logo">ArtisanHub</h1>
+                    <span class="brand__tagline">Handcrafted with Love</span>
+                </a>
+            </div>
+            
+            <div class="nav__actions">
+                <div class="user-menu" id="user-menu">
+                    <div class="user-avatar" id="user-avatar">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="User" class="avatar-img">
+                        <span class="user-name" id="user-name">John Doe</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu">
+                        <a href="profile-setup.html" class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            Edit Profile
+                        </a>
+                        <a href="../index.html" class="dropdown-item">
+                            <i class="fas fa-home"></i>
+                            View Storefront
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard">
+        <div class="container">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <div class="dashboard-welcome">
+                    <h1 class="dashboard-title">Welcome back, <span id="artist-name">John</span>!</h1>
+                    <p class="dashboard-subtitle">Manage your artisan shop and track your progress</p>
+                </div>
+                
+                <div class="dashboard-actions">
+                    <a href="add-product.html" class="btn btn--primary">
+                        <i class="fas fa-plus"></i>
+                        Add New Product
+                    </a>
+                    <button class="btn btn--outline" id="preview-shop">
+                        <i class="fas fa-eye"></i>
+                        Preview Shop
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="total-products">0</div>
+                        <div class="stat-label">Total Products</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="total-orders">0</div>
+                        <div class="stat-label">Orders</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="total-revenue">$0</div>
+                        <div class="stat-label">Revenue</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="avg-rating">5.0</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Products Management -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-box"></i>
+                            Your Products
+                        </h2>
+                        <div class="card-actions">
+                            <select class="filter-select" id="product-filter">
+                                <option value="all">All Products</option>
+                                <option value="active">Active</option>
+                                <option value="draft">Draft</option>
+                                <option value="low-stock">Low Stock</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="card-content">
+                        <div class="products-list" id="products-list">
+                            <!-- Products will be loaded here -->
+                            <div class="empty-state">
+                                <i class="fas fa-box-open"></i>
+                                <h3>No products yet</h3>
+                                <p>Start showcasing your beautiful creations</p>
+                                <a href="add-product.html" class="btn btn--primary">Add Your First Product</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-clipboard-list"></i>
+                            Recent Orders
+                        </h2>
+                        <a href="#" class="card-link">View All</a>
+                    </div>
+                    
+                    <div class="card-content">
+                        <div class="orders-list" id="orders-list">
+                            <div class="empty-state">
+                                <i class="fas fa-shopping-cart"></i>
+                                <h3>No orders yet</h3>
+                                <p>Your first order will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-bolt"></i>
+                            Quick Actions
+                        </h2>
+                    </div>
+                    
+                    <div class="card-content">
+                        <div class="quick-actions">
+                            <button class="quick-action" onclick="window.location.href='add-product.html'">
+                                <i class="fas fa-plus"></i>
+                                <span>Add Product</span>
+                            </button>
+                            
+                            <button class="quick-action" onclick="window.location.href='profile-setup.html'">
+                                <i class="fas fa-user-edit"></i>
+                                <span>Edit Profile</span>
+                            </button>
+                            
+                            <button class="quick-action" id="promote-shop">
+                                <i class="fas fa-share"></i>
+                                <span>Share Shop</span>
+                            </button>
+                            
+                            <button class="quick-action" id="view-analytics">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Analytics</span>
+                            </button>
+                            
+                            <button class="quick-action" id="manage-inventory">
+                                <i class="fas fa-warehouse"></i>
+                                <span>Inventory</span>
+                            </button>
+                            
+                            <button class="quick-action" id="customer-messages">
+                                <i class="fas fa-comments"></i>
+                                <span>Messages</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Completion */
+                <div class="dashboard-card" id="profile-completion-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-user-check"></i>
+                            Complete Your Profile
+                        </h2>
+                    </div>
+                    
+                    <div class="card-content">
+                        <div class="completion-progress">
+                            <div class="progress-circle" id="profile-progress">
+                                <div class="progress-text">
+                                    <span class="progress-percentage">85%</span>
+                                    <span class="progress-label">Complete</span>
+                                </div>
+                            </div>
+                            
+                            <div class="completion-checklist">
+                                <div class="checklist-item completed">
+                                    <i class="fas fa-check"></i>
+                                    <span>Basic information added</span>
+                                </div>
+                                <div class="checklist-item completed">
+                                    <i class="fas fa-check"></i>
+                                    <span>Profile photo uploaded</span>
+                                </div>
+                                <div class="checklist-item">
+                                    <i class="fas fa-times"></i>
+                                    <span>Add portfolio images</span>
+                                </div>
+                                <div class="checklist-item">
+                                    <i class="fas fa-times"></i>
+                                    <span>Add your first product</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shop Performance -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-chart-line"></i>
+                            Shop Performance
+                        </h2>
+                        <select class="filter-select" id="performance-period">
+                            <option value="7days">Last 7 Days</option>
+                            <option value="30days">Last 30 Days</option>
+                            <option value="90days">Last 3 Months</option>
+                        </select>
+                    </div>
+                    
+                    <div class="card-content">
+                        <div class="performance-metrics">
+                            <div class="metric">
+                                <div class="metric-label">Views</div>
+                                <div class="metric-value">0</div>
+                                <div class="metric-change positive">+0%</div>
+                            </div>
+                            
+                            <div class="metric">
+                                <div class="metric-label">Favorites</div>
+                                <div class="metric-value">0</div>
+                                <div class="metric-change positive">+0%</div>
+                            </div>
+                            
+                            <div class="metric">
+                                <div class="metric-label">Sales</div>
+                                <div class="metric-value">0</div>
+                                <div class="metric-change positive">+0%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-area"></i>
+                            <p>Charts will appear here once you have sales data</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tips & Resources -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-lightbulb"></i>
+                            Tips & Resources
+                        </h2>
+                    </div>
+                    
+                    <div class="card-content">
+                        <div class="tips-list">
+                            <div class="tip-item">
+                                <i class="fas fa-camera"></i>
+                                <div class="tip-content">
+                                    <h4>Photography Tips</h4>
+                                    <p>Use natural lighting and clean backgrounds to showcase your products beautifully.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="tip-item">
+                                <i class="fas fa-tag"></i>
+                                <div class="tip-content">
+                                    <h4>Pricing Strategy</h4>
+                                    <p>Consider materials, time, and market value when pricing your handmade items.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="tip-item">
+                                <i class="fas fa-shipping-fast"></i>
+                                <div class="tip-content">
+                                    <h4>Shipping Excellence</h4>
+                                    <p>Fast, secure packaging creates happy customers and positive reviews.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Share Shop Modal -->
+    <div class="modal" id="share-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Share Your Shop</h3>
+                <button class="modal-close" id="close-share-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <p>Share your shop link with friends and customers:</p>
+                
+                <div class="share-link">
+                    <input type="text" value="https://artisanhub.com/shop/johndoe" readonly class="share-input" id="shop-link">
+                    <button class="btn btn--outline btn--sm" id="copy-link">
+                        <i class="fas fa-copy"></i>
+                        Copy
+                    </button>
+                </div>
+                
+                <div class="social-share">
+                    <h4>Share on social media:</h4>
+                    <div class="social-buttons">
+                        <button class="social-btn facebook">
+                            <i class="fab fa-facebook"></i>
+                            Facebook
+                        </button>
+                        <button class="social-btn twitter">
+                            <i class="fab fa-twitter"></i>
+                            Twitter
+                        </button>
+                        <button class="social-btn instagram">
+                            <i class="fab fa-instagram"></i>
+                            Instagram
+                        </button>
+                        <button class="social-btn whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                            WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/database-service.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/enhanced-auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>
