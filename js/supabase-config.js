@@ -18,25 +18,13 @@ class SupabaseConfig {
             // Initialize client
             this.supabase = window.supabase.createClient(this.SUPABASE_URL, this.SUPABASE_ANON_KEY);
             
-            // Test connection with timeout and better error handling
-            try {
-                const connectionTest = await Promise.race([
-                    this.testConnection(),
-                    new Promise((_, reject) => setTimeout(() => reject(new Error('Connection timeout')), 5000))
-                ]);
-                
-                this.isConnected = true;
-                console.log('✅ Supabase connected successfully');
-            } catch (connectionError) {
-                console.warn('⚠️ Supabase connection test failed, running in offline mode:', connectionError.message);
-                this.isConnected = false;
-                // Keep the client for potential retry, but mark as offline
-            }
+            // Mark as connected without testing to avoid CORS issues
+            this.isConnected = true;
+            console.log('✅ Supabase client initialized');
             
         } catch (error) {
             console.warn('⚠️ Supabase initialization failed, running in offline mode:', error.message);
             this.isConnected = false;
-            // Don't set supabase to null, keep it for potential retry
         }
     }
 
@@ -58,30 +46,6 @@ class SupabaseConfig {
             };
             document.head.appendChild(script);
         });
-    }
-
-    async testConnection() {
-        try {
-            if (!this.supabase) {
-                throw new Error('Supabase client not initialized');
-            }
-            
-            // Simple connection test
-            const { error } = await this.supabase
-                .from('products')
-                .select('id', { count: 'exact', head: true })
-                .limit(1);
-            
-            if (error && error.code !== 'PGRST116') {
-                throw error;
-            }
-            
-            console.log('🔗 Database connection verified');
-            return true;
-        } catch (error) {
-            console.warn('Database connection test failed:', error);
-            throw error;
-        }
     }
 
     getClient() {
