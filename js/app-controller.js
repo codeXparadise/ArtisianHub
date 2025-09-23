@@ -355,6 +355,7 @@ class AppController {
 
         try {
             if (result.success && result.data && result.data.length > 0) {
+            }
             productsGrid.innerHTML = `
                 <div class="loading-message" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
                     <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #8B4513;"></i>
@@ -379,7 +380,7 @@ class AppController {
                 console.warn('No products available or failed to load');
                 this.displayNoProducts();
 
-        } catch (error) {
+                    } catch (error) {
             console.error('Error loading products:', error);
             this.displayNoProducts();
             productsGrid.innerHTML = `
@@ -389,6 +390,7 @@ class AppController {
                 </div>
             `;
         }
+            }
     }
 
     renderProducts(products, container) {
