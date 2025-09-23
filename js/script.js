@@ -854,7 +854,11 @@ async function loadDynamicProducts() {
         // Wait for database service to be ready
         let db;
         if (window.databaseService) {
-            await window.databaseService.initPromise;
+            try {
+                await window.databaseService.initPromise;
+            } catch (initError) {
+                console.warn('Database service initialization failed:', initError.message);
+            }
             db = window.databaseService;
         }
         
@@ -862,22 +866,26 @@ async function loadDynamicProducts() {
         
         if (db) {
             // Try to get products from database
-            const result = await db.getProducts({ 
-                status: 'active', 
-                limit: 8,
-                sortBy: 'created_at',
-                sortOrder: 'desc'
-            });
-            
-            if (result.success && result.data && result.data.length > 0) {
-                featuredProducts = result.data;
-                console.log('📦 Loaded', featuredProducts.length, 'products from database');
+            try {
+                const result = await db.getProducts({ 
+                    status: 'active', 
+                    limit: 8,
+                    sortBy: 'created_at',
+                    sortOrder: 'desc'
+                });
+                
+                if (result.success && result.data && result.data.length > 0) {
+                    featuredProducts = result.data;
+                    console.log('📦 Loaded', featuredProducts.length, 'products from database');
+                }
+            } catch (dbError) {
+                console.warn('Error loading products from database:', dbError.message);
             }
         }
         
         // Fallback to static products if no database products found
         if (featuredProducts.length === 0) {
-            console.log('📦 Using fallback products (no database products found)');
+            console.log('📦 Using fallback products (database unavailable or no products found)');
             featuredProducts = [
                 {
                     id: 1,
@@ -949,15 +957,20 @@ async function loadDynamicProducts() {
         setupProductEventListeners();
         
     } catch (error) {
-        console.error('Error loading products:', error);
+        console.warn('Error in loadDynamicProducts:', error.message);
         
         // Show error message
         productGrid.innerHTML = `
             <div class="error-message" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
-                <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: var(--error);"></i>
-                <p style="margin-top: 1rem; color: var(--error);">Error loading products. Please try again later.</p>
+                <i class="fas fa-info-circle" style="font-size: 2rem; color: var(--primary-color);"></i>
+                <p style="margin-top: 1rem; color: var(--text-light);">Loading sample products...</p>
             </div>
         `;
+        
+        // Load fallback products even on error
+        setTimeout(() => {
+            loadDynamicProducts();
+        }, 1000);
     }
 }
 

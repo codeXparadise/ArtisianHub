@@ -14,15 +14,20 @@ class DatabaseService {
                 this.supabase = window.supabaseConfig.getClient();
                 this.isConnected = window.supabaseConfig.isOnline();
                 
-                // Verify client is properly initialized
-                if (!this.supabase) {
-                    throw new Error('Supabase client is null after initialization');
+                // Log connection status
+                if (this.isConnected && this.supabase) {
+                    console.log('🗄️ Database Service initialized with Supabase connection');
+                } else {
+                    console.log('🗄️ Database Service initialized in offline mode');
                 }
+            } else {
+                console.warn('⚠️ Supabase config not available, running in offline mode');
+                this.isConnected = false;
+                this.supabase = null;
             }
             
-            console.log('🗄️ Database Service initialized');
         } catch (error) {
-            console.error('Database initialization failed:', error);
+            console.warn('⚠️ Database initialization failed, running in offline mode:', error.message);
             this.isConnected = false;
             this.supabase = null;
         }
@@ -164,7 +169,7 @@ class DatabaseService {
     async getProducts(filters = {}) {
         try {
             // Check if Supabase client is available
-            if (!this.supabase) {
+            if (!this.supabase || !this.isConnected) {
                 console.warn('Supabase client not available, using fallback data');
                 return this.getFallbackProducts();
             }
@@ -203,7 +208,7 @@ class DatabaseService {
             if (error) throw error;
             return { success: true, data: data || [] };
         } catch (error) {
-            console.error('Error getting products:', error);
+            console.warn('Error getting products from database, using fallback:', error.message);
             console.warn('Falling back to sample data');
             return this.getFallbackProducts();
         }

@@ -18,19 +18,25 @@ class SupabaseConfig {
             // Initialize client
             this.supabase = window.supabase.createClient(this.SUPABASE_URL, this.SUPABASE_ANON_KEY);
             
-            // Test connection with timeout
-            const connectionTest = await Promise.race([
-                this.testConnection(),
-                new Promise((_, reject) => setTimeout(() => reject(new Error('Connection timeout')), 5000))
-            ]);
-            
-            this.isConnected = true;
-            console.log('✅ Supabase connected successfully');
+            // Test connection with timeout and better error handling
+            try {
+                const connectionTest = await Promise.race([
+                    this.testConnection(),
+                    new Promise((_, reject) => setTimeout(() => reject(new Error('Connection timeout')), 5000))
+                ]);
+                
+                this.isConnected = true;
+                console.log('✅ Supabase connected successfully');
+            } catch (connectionError) {
+                console.warn('⚠️ Supabase connection test failed, running in offline mode:', connectionError.message);
+                this.isConnected = false;
+                // Keep the client for potential retry, but mark as offline
+            }
             
         } catch (error) {
-            console.error('❌ Supabase connection failed:', error);
+            console.warn('⚠️ Supabase initialization failed, running in offline mode:', error.message);
             this.isConnected = false;
-            this.supabase = null;
+            // Don't set supabase to null, keep it for potential retry
         }
     }
 
