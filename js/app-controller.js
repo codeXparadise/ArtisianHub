@@ -354,7 +354,7 @@ class AppController {
         if (!productsGrid) return;
 
         try {
-            // Show loading state
+            if (result.success && result.data && result.data.length > 0) {
             productsGrid.innerHTML = `
                 <div class="loading-message" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
                     <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #8B4513;"></i>
@@ -376,10 +376,12 @@ class AppController {
                         <p style="margin-top: 1rem; color: #7f8c8d;">No products available yet.</p>
                     </div>
                 `;
-            }
+                console.warn('No products available or failed to load');
+                this.displayNoProducts();
 
         } catch (error) {
             console.error('Error loading products:', error);
+            this.displayNoProducts();
             productsGrid.innerHTML = `
                 <div class="error-message" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
                     <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #e74c3c;"></i>

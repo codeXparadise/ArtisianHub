@@ -2,8 +2,8 @@
 class SupabaseConfig {
     constructor() {
         // Get environment variables
-        this.SUPABASE_URL = import.meta.env?.VITE_SUPABASE_URL || 'https://rpuuxlkphxjlunduymdg.supabase.co';
-        this.SUPABASE_ANON_KEY = import.meta.env?.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJwdXV4bGtwaHhqbHVuZHV5bWRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc2NTU4NzEsImV4cCI6MjA1MzIzMTg3MX0.VJxGJKJQXOJJQXOJJQXOJJQXOJJQXOJJQXOJJQXOJJQ';
+        this.SUPABASE_URL = 'https://rpuuxlkphxjlunduymdg.supabase.co';
+        this.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJwdXV4bGtwaHhqbHVuZHV5bWRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc2NTU4NzEsImV4cCI6MjA1MzIzMTg3MX0.VJxGJKJQXOJJQXOJJQXOJJQXOJJQXOJJQXOJJQXOJJQ';
         
         this.supabase = null;
         this.isConnected = false;
@@ -18,8 +18,11 @@ class SupabaseConfig {
             // Initialize client
             this.supabase = window.supabase.createClient(this.SUPABASE_URL, this.SUPABASE_ANON_KEY);
             
-            // Test connection
-            await this.testConnection();
+            // Test connection with timeout
+            const connectionTest = await Promise.race([
+                this.testConnection(),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('Connection timeout')), 5000))
+            ]);
             
             this.isConnected = true;
             console.log('✅ Supabase connected successfully');
@@ -27,6 +30,7 @@ class SupabaseConfig {
         } catch (error) {
             console.error('❌ Supabase connection failed:', error);
             this.isConnected = false;
+            this.supabase = null;
         }
     }
 
@@ -52,15 +56,25 @@ class SupabaseConfig {
 
     async testConnection() {
         try {
-            const { data, error } = await this.supabase
-                .from('users')
-                .select('count', { count: 'exact', head: true });
+            if (!this.supabase) {
+                throw new Error('Supabase client not initialized');
+            }
+            
+            // Simple connection test
+            const { error } = await this.supabase
+                .from('products')
+                .select('id', { count: 'exact', head: true })
+                .limit(1);
+            
+            if (error && error.code !== 'PGRST116') {
+                throw error;
+            }
             
             console.log('🔗 Database connection verified');
             return true;
         } catch (error) {
             console.warn('Database connection test failed:', error);
-            return false;
+            throw error;
         }
     }
 
