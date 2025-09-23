@@ -1,4 +1,4 @@
-// Database Service for ArtisanHub with Supabase Integration
+// Database Service for Complete Supabase Integration
 class DatabaseService {
     constructor() {
         this.supabase = null;
@@ -8,20 +8,11 @@ class DatabaseService {
 
     async init() {
         try {
-            // Wait for Supabase config to be ready
+            // Wait for Supabase config
             if (window.supabaseConfig) {
-                await new Promise(resolve => {
-                    const checkConfig = () => {
-                        if (window.supabaseConfig.getClient()) {
-                            this.supabase = window.supabaseConfig.getClient();
-                            this.isConnected = true;
-                            resolve();
-                        } else {
-                            setTimeout(checkConfig, 100);
-                        }
-                    };
-                    checkConfig();
-                });
+                await window.supabaseConfig.initPromise;
+                this.supabase = window.supabaseConfig.getClient();
+                this.isConnected = window.supabaseConfig.isOnline();
             }
             
             console.log('🗄️ Database Service initialized');
@@ -31,108 +22,41 @@ class DatabaseService {
         }
     }
 
-    // ==================== AUTH INTEGRATION ====================
-
-    async signUp(email, password, userData) {
-        try {
-            const { data, error } = await this.supabase.auth.signUp({
-                email,
-                password,
-                options: {
-                    data: userData
-                }
-            });
-
-            if (error) throw error;
-            return { success: true, data };
-        } catch (error) {
-            console.error('Error signing up:', error);
-            return { success: false, error: error.message };
-        }
-    }
-
-    async signIn(email, password) {
-        try {
-            const { data, error } = await this.supabase.auth.signInWithPassword({
-                email,
-                password
-            });
-
-            if (error) throw error;
-            return { success: true, data };
-        } catch (error) {
-            console.error('Error signing in:', error);
-            return { success: false, error: error.message };
-        }
-    }
-
-    async signOut() {
-        try {
-            const { error } = await this.supabase.auth.signOut();
-            if (error) throw error;
-            return { success: true };
-        } catch (error) {
-            console.error('Error signing out:', error);
-            return { success: false, error: error.message };
-        }
-    }
-
     // ==================== USER MANAGEMENT ====================
 
     async createUser(userData) {
         try {
-            if (this.isConnected && this.supabase) {
-                const { data, error } = await this.supabase
-                    .from('users')
-                    .insert([{
-                        id: userData.id,
-                        email: userData.email,
-                        full_name: userData.fullName || userData.full_name,
-                        phone: userData.phone,
-                        is_artisan: userData.isArtisan || userData.is_artisan || false,
-                        profile_completed: userData.profileCompleted || userData.profile_completed || false
-                    }])
-                    .select()
-                    .single();
+            const { data, error } = await this.supabase
+                .from('users')
+                .insert([{
+                    id: userData.id,
+                    email: userData.email,
+                    full_name: userData.fullName || userData.full_name,
+                    phone: userData.phone,
+                    is_artisan: userData.isArtisan || userData.is_artisan || false,
+                    profile_completed: userData.profileCompleted || userData.profile_completed || false
+                }])
+                .select()
+                .single();
 
-                if (error) throw error;
-                return { success: true, data };
-            } else {
-                // Fallback to localStorage
-                const users = JSON.parse(localStorage.getItem('users') || '[]');
-                const newUser = {
-                    id: this.generateId(),
-                    ...userData,
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                };
-                users.push(newUser);
-                localStorage.setItem('users', JSON.stringify(users));
-                return { success: true, data: newUser };
-            }
+            if (error) throw error;
+            return { success: true, data };
         } catch (error) {
             console.error('Error creating user:', error);
             return { success: false, error: error.message };
         }
     }
 
-    async getUser(email) {
+    async getUser(userId) {
         try {
-            if (this.isConnected && this.supabase) {
-                const { data, error } = await this.supabase
-                    .from('users')
-                    .select('*')
-                    .eq('email', email)
-                    .single();
+            const { data, error } = await this.supabase
+                .from('users')
+                .select('*')
+                .eq('id', userId)
+                .single();
 
-                if (error && error.code !== 'PGRST116') throw error;
-                return { success: true, data };
-            } else {
-                // Fallback to localStorage
-                const users = JSON.parse(localStorage.getItem('users') || '[]');
-                const user = users.find(u => u.email === email);
-                return { success: true, data: user };
-            }
+            if (error && error.code !== 'PGRST116') throw error;
+            return { success: true, data };
         } catch (error) {
             console.error('Error getting user:', error);
             return { success: false, error: error.message };
@@ -141,27 +65,15 @@ class DatabaseService {
 
     async updateUser(userId, userData) {
         try {
-            if (this.isConnected && this.supabase) {
-                const { data, error } = await this.supabase
-                    .from('users')
-                    .update(userData)
-                    .eq('id', userId)
-                    .select()
-                    .single();
+            const { data, error } = await this.supabase
+                .from('users')
+                .update(userData)
+                .eq('id', userId)
+                .select()
+                .single();
 
-                if (error) throw error;
-                return { success: true, data };
-            } else {
-                // Fallback to localStorage
-                const users = JSON.parse(localStorage.getItem('users') || '[]');
-                const index = users.findIndex(u => u.id === userId);
-                if (index !== -1) {
-                    users[index] = { ...users[index], ...userData };
-                    localStorage.setItem('users', JSON.stringify(users));
-                    return { success: true, data: users[index] };
-                }
-                return { success: false, error: 'User not found' };
-            }
+            if (error) throw error;
+            return { success: true, data };
         } catch (error) {
             console.error('Error updating user:', error);
             return { success: false, error: error.message };
@@ -172,27 +84,14 @@ class DatabaseService {
 
     async createArtisan(artisanData) {
         try {
-            if (this.isConnected && this.supabase) {
-                const { data, error } = await this.supabase
-                    .from('artisans')
-                    .insert([artisanData])
-                    .select()
-                    .single();
+            const { data, error } = await this.supabase
+                .from('artisans')
+                .insert([artisanData])
+                .select()
+                .single();
 
-                if (error) throw error;
-                return { success: true, data };
-            } else {
-                // Fallback to localStorage
-                const artisans = JSON.parse(localStorage.getItem('artisans') || '[]');
-                const newArtisan = {
-                    id: this.generateId(),
-                    ...artisanData,
-                    created_at: new Date().toISOString()
-                };
-                artisans.push(newArtisan);
-                localStorage.setItem('artisans', JSON.stringify(artisans));
-                return { success: true, data: newArtisan };
-            }
+            if (error) throw error;
+            return { success: true, data };
         } catch (error) {
             console.error('Error creating artisan:', error);
             return { success: false, error: error.message };
@@ -201,23 +100,33 @@ class DatabaseService {
 
     async getArtisan(userId) {
         try {
-            if (this.isConnected && this.supabase) {
-                const { data, error } = await this.supabase
-                    .from('artisans')
-                    .select('*')
-                    .eq('user_id', userId)
-                    .single();
+            const { data, error } = await this.supabase
+                .from('artisans')
+                .select('*')
+                .eq('user_id', userId)
+                .single();
 
-                if (error && error.code !== 'PGRST116') throw error;
-                return { success: true, data };
-            } else {
-                // Fallback to localStorage
-                const artisans = JSON.parse(localStorage.getItem('artisans') || '[]');
-                const artisan = artisans.find(a => a.user_id === userId);
-                return { success: true, data: artisan };
-            }
+            if (error && error.code !== 'PGRST116') throw error;
+            return { success: true, data };
         } catch (error) {
             console.error('Error getting artisan:', error);
+            return { success: false, error: error.message };
+        }
+    }
+
+    async updateArtisan(artisanId, artisanData) {
+        try {
+            const { data, error } = await this.supabase
+                .from('artisans')
+                .update(artisanData)
+                .eq('id', artisanId)
+                .select()
+                .single();
+
+            if (error) throw error;
+            return { success: true, data };
+        } catch (error) {
+            console.error('Error updating artisan:', error);
             return { success: false, error: error.message };
         }
     }
@@ -226,40 +135,20 @@ class DatabaseService {
 
     async createProduct(productData) {
         try {
-            if (this.isConnected && this.supabase) {
-                const { data, error } = await this.supabase
-                    .from('products')
-                    .insert([{
-                        artisan_id: productData.artisanId,
-                        name: productData.title,
-                        description: productData.description,
-                        price: productData.price,
-                        category: productData.category,
-                        materials: productData.materials ? [productData.materials] : [],
-                        dimensions: productData.dimensions,
-                        weight: productData.weight,
-                        images: productData.images || [],
-                        stock_quantity: productData.quantity || 1,
-                        status: productData.status || 'active',
-                        created_at: new Date().toISOString()
-                    }])
-                    .select()
-                    .single();
+            const { data, error } = await this.supabase
+                .from('products')
+                .insert([productData])
+                .select(`
+                    *,
+                    artisans (
+                        business_name,
+                        user_id
+                    )
+                `)
+                .single();
 
-                if (error) throw error;
-                return { success: true, data };
-            } else {
-                // Fallback to localStorage
-                const products = JSON.parse(localStorage.getItem('products') || '[]');
-                const newProduct = {
-                    id: this.generateId(),
-                    ...productData,
-                    created_at: new Date().toISOString()
-                };
-                products.push(newProduct);
-                localStorage.setItem('products', JSON.stringify(products));
-                return { success: true, data: newProduct };
-            }
+            if (error) throw error;
+            return { success: true, data };
         } catch (error) {
             console.error('Error creating product:', error);
             return { success: false, error: error.message };
@@ -268,230 +157,119 @@ class DatabaseService {
 
     async getProducts(filters = {}) {
         try {
-            if (this.isConnected && this.supabase) {
-                let query = this.supabase.from('products').select('*');
+            let query = this.supabase
+                .from('products')
+                .select(`
+                    *,
+                    artisans (
+                        business_name,
+                        user_id,
+                        rating
+                    )
+                `);
 
-                if (filters.status) {
-                    query = query.eq('status', filters.status);
-                }
-                if (filters.category) {
-                    query = query.eq('category', filters.category);
-                }
-                if (filters.artisanId) {
-                    query = query.eq('artisan_id', filters.artisanId);
-                }
-                if (filters.limit) {
-                    query = query.limit(filters.limit);
-                }
-
-                const { data, error } = await query;
-                if (error) throw error;
-                return { success: true, data: data || [] };
-            } else {
-                // Fallback to localStorage
-                let products = JSON.parse(localStorage.getItem('products') || '[]');
-                
-                // Apply filters
-                if (filters.status) {
-                    products = products.filter(p => p.status === filters.status);
-                }
-                if (filters.category) {
-                    products = products.filter(p => p.category === filters.category);
-                }
-                if (filters.artisanId) {
-                    products = products.filter(p => p.artisanId === filters.artisanId);
-                }
-                if (filters.limit) {
-                    products = products.slice(0, filters.limit);
-                }
-
-                return { success: true, data: products };
+            if (filters.status) {
+                query = query.eq('status', filters.status);
             }
+            if (filters.category) {
+                query = query.eq('category', filters.category);
+            }
+            if (filters.artisan_id) {
+                query = query.eq('artisan_id', filters.artisan_id);
+            }
+            if (filters.featured) {
+                query = query.eq('featured', filters.featured);
+            }
+
+            query = query.order('created_at', { ascending: false });
+
+            if (filters.limit) {
+                query = query.limit(filters.limit);
+            }
+
+            const { data, error } = await query;
+            if (error) throw error;
+            return { success: true, data: data || [] };
         } catch (error) {
             console.error('Error getting products:', error);
             return { success: false, error: error.message };
         }
     }
 
-    // ==================== CART MANAGEMENT ====================
-
-    async addToCart(userId, productId, quantity = 1) {
+    async updateProduct(productId, productData) {
         try {
-            if (this.isConnected && this.supabase) {
-                // Check if item already exists
-                const { data: existing } = await this.supabase
-                    .from('cart_items')
-                    .select('*')
-                    .eq('user_id', userId)
-                    .eq('product_id', productId)
-                    .single();
+            const { data, error } = await this.supabase
+                .from('products')
+                .update(productData)
+                .eq('id', productId)
+                .select()
+                .single();
 
-                if (existing) {
-                    // Update quantity
-                    const { data, error } = await this.supabase
-                        .from('cart_items')
-                        .update({ quantity: existing.quantity + quantity })
-                        .eq('id', existing.id)
-                        .select()
-                        .single();
-
-                    if (error) throw error;
-                    return { success: true, data };
-                } else {
-                    // Insert new item
-                    const { data, error } = await this.supabase
-                        .from('cart_items')
-                        .insert([{
-                            user_id: userId,
-                            product_id: productId,
-                            quantity: quantity
-                        }])
-                        .select()
-                        .single();
-
-                    if (error) throw error;
-                    return { success: true, data };
-                }
-            } else {
-                // Fallback to localStorage
-                const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-                const existingItem = cartItems.find(item => item.productId === productId);
-                
-                if (existingItem) {
-                    existingItem.quantity += quantity;
-                } else {
-                    cartItems.push({
-                        id: this.generateId(),
-                        userId: userId,
-                        productId: productId,
-                        quantity: quantity,
-                        created_at: new Date().toISOString()
-                    });
-                }
-                
-                localStorage.setItem('cartItems', JSON.stringify(cartItems));
-                return { success: true, data: cartItems };
-            }
+            if (error) throw error;
+            return { success: true, data };
         } catch (error) {
-            console.error('Error adding to cart:', error);
+            console.error('Error updating product:', error);
             return { success: false, error: error.message };
         }
     }
 
-    async getCartItems(userId) {
+    async deleteProduct(productId) {
         try {
-            if (this.isConnected && this.supabase) {
-                const { data, error } = await this.supabase
-                    .from('cart_items')
-                    .select(`
-                        *,
-                        products (
-                            id,
-                            name,
-                            price,
-                            images,
-                            artisan_id
-                        )
-                    `)
-                    .eq('user_id', userId);
+            const { error } = await this.supabase
+                .from('products')
+                .delete()
+                .eq('id', productId);
 
-                if (error) throw error;
-                return { success: true, data: data || [] };
-            } else {
-                // Fallback to localStorage
-                const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-                const userItems = cartItems.filter(item => item.userId === userId);
-                return { success: true, data: userItems };
-            }
+            if (error) throw error;
+            return { success: true };
         } catch (error) {
-            console.error('Error getting cart items:', error);
+            console.error('Error deleting product:', error);
             return { success: false, error: error.message };
         }
     }
 
     // ==================== ORDER MANAGEMENT ====================
 
+    async createOrder(orderData) {
+        try {
+            const { data, error } = await this.supabase
+                .from('orders')
+                .insert([orderData])
+                .select()
+                .single();
+
+            if (error) throw error;
+            return { success: true, data };
+        } catch (error) {
+            console.error('Error creating order:', error);
+            return { success: false, error: error.message };
+        }
+    }
+
     async getOrders(filters = {}) {
         try {
-            if (this.isConnected && this.supabase) {
-                let query = this.supabase.from('orders').select('*');
+            let query = this.supabase.from('orders').select('*');
 
-                if (filters.userId) {
-                    query = query.eq('user_id', filters.userId);
-                }
-                if (filters.artisanId) {
-                    query = query.eq('artisan_id', filters.artisanId);
-                }
-
-                const { data, error } = await query;
-                if (error) throw error;
-                return { success: true, data: data || [] };
-            } else {
-                // Fallback to localStorage
-                const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-                let filteredOrders = orders;
-                
-                if (filters.userId) {
-                    filteredOrders = filteredOrders.filter(o => o.userId === filters.userId);
-                }
-                if (filters.artisanId) {
-                    filteredOrders = filteredOrders.filter(o => o.artisanId === filters.artisanId);
-                }
-
-                return { success: true, data: filteredOrders };
+            if (filters.userId) {
+                query = query.eq('user_id', filters.userId);
             }
+
+            const { data, error } = await query;
+            if (error) throw error;
+            return { success: true, data: data || [] };
         } catch (error) {
             console.error('Error getting orders:', error);
             return { success: false, error: error.message };
         }
     }
 
-    async getArtisanAnalytics(artisanId) {
-        try {
-            // Mock analytics data for now
-            const analytics = {
-                products: {
-                    total: 0,
-                    active: 0,
-                    totalViews: 0,
-                    totalLikes: 0,
-                    avgViews: 0
-                },
-                orders: {
-                    total: 0,
-                    pending: 0,
-                    totalRevenue: 0,
-                    avgOrderValue: 0
-                },
-                trends: {
-                    viewsGrowth: Math.floor(Math.random() * 20) - 10,
-                    salesGrowth: Math.floor(Math.random() * 15) - 5,
-                    revenueGrowth: Math.floor(Math.random() * 25) - 10
-                }
-            };
-
-            return { success: true, data: analytics };
-        } catch (error) {
-            console.error('Error getting analytics:', error);
-            return { success: false, error: error.message };
-        }
-    }
-
     // ==================== UTILITY METHODS ====================
-
-    generateId() {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2);
-    }
 
     isOnline() {
         return this.isConnected;
     }
 }
 
-// Initialize database service
+// Initialize and export
 window.databaseService = new DatabaseService();
-
-// Export for module use
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = DatabaseService;
-}
+export default window.databaseService;

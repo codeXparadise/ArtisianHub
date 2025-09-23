@@ -1,4 +1,4 @@
-// Shopping Cart Service with Supabase Integration
+// Shopping Cart Service with Complete Supabase Integration
 class CartService {
     constructor() {
         this.supabase = null;
@@ -10,10 +10,10 @@ class CartService {
 
     async init() {
         try {
-            // Wait for Supabase client
-            if (window.supabaseClient) {
-                await window.supabaseClient.initPromise;
-                this.supabase = window.supabaseClient.getClient();
+            // Wait for Supabase config
+            if (window.supabaseConfig) {
+                await window.supabaseConfig.initPromise;
+                this.supabase = window.supabaseConfig.getClient();
             }
 
             // Wait for auth service
@@ -67,16 +67,11 @@ class CartService {
                         quantity: item.quantity,
                         artisan: item.products.artisans?.business_name || 'Unknown Artisan'
                     }));
-                } else {
-                    this.cart = JSON.parse(localStorage.getItem('cart') || '[]');
                 }
-            } else {
-                // Guest user - load from localStorage
-                this.cart = JSON.parse(localStorage.getItem('cart') || '[]');
             }
         } catch (error) {
             console.error('Error loading cart:', error);
-            this.cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            this.cart = [];
         }
     }
 
@@ -103,13 +98,6 @@ class CartService {
             this.currentUser = e.detail.user || null;
             this.loadCart();
         });
-
-        // Escape key to close cart
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                this.closeCart();
-            }
-        });
     }
 
     async handleAddToCart(event) {
@@ -120,6 +108,15 @@ class CartService {
         const productId = button.getAttribute('data-product-id');
         
         if (!productId) return;
+
+        // Check if user is logged in
+        if (!this.currentUser) {
+            this.showNotification('Please sign in to add items to cart', 'warning');
+            setTimeout(() => {
+                window.location.href = 'pages/user-auth.html';
+            }, 1500);
+            return;
+        }
 
         // Show loading state
         const originalText = button.innerHTML;
@@ -133,7 +130,7 @@ class CartService {
                 throw new Error('Product not found');
             }
 
-            // Add to cart
+            // Add to cart in database
             await this.addToCart(product);
             
             // Success feedback
@@ -159,62 +156,28 @@ class CartService {
 
     async getProductData(productId) {
         try {
-            if (this.supabase) {
-                const { data, error } = await this.supabase
-                    .from('products')
-                    .select(`
-                        *,
-                        artisans (
-                            business_name
-                        )
-                    `)
-                    .eq('id', productId)
-                    .single();
+            const { data, error } = await this.supabase
+                .from('products')
+                .select(`
+                    *,
+                    artisans (
+                        business_name
+                    )
+                `)
+                .eq('id', productId)
+                .single();
 
-                if (!error && data) {
-                    return {
-                        id: data.id,
-                        title: data.title,
-                        price: data.price,
-                        image: data.images[0] || '',
-                        artisan: data.artisans?.business_name || 'Unknown Artisan'
-                    };
-                }
+            if (!error && data) {
+                return {
+                    id: data.id,
+                    title: data.title,
+                    price: data.price,
+                    image: data.images[0] || '',
+                    artisan: data.artisans?.business_name || 'Unknown Artisan'
+                };
             }
 
-            // Fallback to static product data
-            const staticProducts = [
-                {
-                    id: '1',
-                    title: "Handcrafted Ceramic Bowl Set",
-                    price: 89.99,
-                    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
-                    artisan: "Sarah Martinez"
-                },
-                {
-                    id: '2',
-                    title: "Traditional Handwoven Tapestry",
-                    price: 245.00,
-                    image: "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=400&h=400&fit=crop",
-                    artisan: "Elena Rossi"
-                },
-                {
-                    id: '3',
-                    title: "Modern Wood Sculpture",
-                    price: 380.00,
-                    image: "https://images.unsplash.com/photo-1596367407372-96cb88503db6?w=400&h=400&fit=crop",
-                    artisan: "Marcus Chen"
-                },
-                {
-                    id: '4',
-                    title: "Sterling Silver Pendant Necklace",
-                    price: 125.00,
-                    image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
-                    artisan: "Luna Crafts"
-                }
-            ];
-
-            return staticProducts.find(p => p.id === productId);
+            return null;
         } catch (error) {
             console.error('Error getting product data:', error);
             return null;
@@ -223,27 +186,27 @@ class CartService {
 
     async addToCart(product, quantity = 1) {
         try {
+            // Add to database
+            const { data, error } = await this.supabase
+                .from('cart_items')
+                .upsert({
+                    user_id: this.currentUser.id,
+                    product_id: product.id,
+                    quantity: quantity
+                }, {
+                    onConflict: 'user_id,product_id'
+                });
+
+            if (error) throw error;
+
+            // Update local cart
             const existingItem = this.cart.find(item => item.id === product.id);
-            
             if (existingItem) {
                 existingItem.quantity += quantity;
             } else {
                 this.cart.push({ ...product, quantity });
             }
 
-            // Save to database if user is logged in
-            if (this.currentUser && this.supabase) {
-                await this.supabase
-                    .from('cart_items')
-                    .upsert({
-                        user_id: this.currentUser.id,
-                        product_id: product.id,
-                        quantity: existingItem ? existingItem.quantity : quantity
-                    });
-            }
-
-            // Always save to localStorage as backup
-            this.saveCartToStorage();
             this.updateCartUI();
             
             return { success: true };
@@ -255,18 +218,17 @@ class CartService {
 
     async removeFromCart(productId) {
         try {
+            // Remove from database
+            const { error } = await this.supabase
+                .from('cart_items')
+                .delete()
+                .eq('user_id', this.currentUser.id)
+                .eq('product_id', productId);
+
+            if (error) throw error;
+
+            // Update local cart
             this.cart = this.cart.filter(item => item.id !== productId);
-
-            // Remove from database if user is logged in
-            if (this.currentUser && this.supabase) {
-                await this.supabase
-                    .from('cart_items')
-                    .delete()
-                    .eq('user_id', this.currentUser.id)
-                    .eq('product_id', productId);
-            }
-
-            this.saveCartToStorage();
             this.updateCartUI();
             this.renderCartItems();
             
@@ -275,55 +237,6 @@ class CartService {
             console.error('Error removing from cart:', error);
             return { success: false, error: error.message };
         }
-    }
-
-    async updateQuantity(productId, newQuantity) {
-        try {
-            if (newQuantity <= 0) {
-                return await this.removeFromCart(productId);
-            }
-
-            const item = this.cart.find(item => item.id === productId);
-            if (item) {
-                item.quantity = newQuantity;
-
-                // Update database if user is logged in
-                if (this.currentUser && this.supabase) {
-                    await this.supabase
-                        .from('cart_items')
-                        .update({ quantity: newQuantity })
-                        .eq('user_id', this.currentUser.id)
-                        .eq('product_id', productId);
-                }
-
-                this.saveCartToStorage();
-                this.updateCartUI();
-                this.renderCartItems();
-            }
-            
-            return { success: true };
-        } catch (error) {
-            console.error('Error updating quantity:', error);
-            return { success: false, error: error.message };
-        }
-    }
-
-    handleQuantityChange(event) {
-        const button = event.target.closest('.quantity-btn');
-        const cartItem = button.closest('.cart-item');
-        const productId = cartItem.dataset.productId;
-        const currentQuantity = parseInt(cartItem.querySelector('.quantity').textContent);
-        const isIncrease = button.querySelector('.fa-plus');
-        
-        const newQuantity = isIncrease ? currentQuantity + 1 : currentQuantity - 1;
-        this.updateQuantity(productId, newQuantity);
-    }
-
-    handleRemoveItem(event) {
-        const cartItem = event.target.closest('.cart-item');
-        const productId = cartItem.dataset.productId;
-        this.removeFromCart(productId);
-        this.showNotification('Item removed from cart', 'info');
     }
 
     toggleCart() {
@@ -433,15 +346,57 @@ class CartService {
         `).join('');
     }
 
-    saveCartToStorage() {
-        localStorage.setItem('cart', JSON.stringify(this.cart));
+    handleQuantityChange(event) {
+        const button = event.target.closest('.quantity-btn');
+        const cartItem = button.closest('.cart-item');
+        const productId = cartItem.dataset.productId;
+        const currentQuantity = parseInt(cartItem.querySelector('.quantity').textContent);
+        const isIncrease = button.querySelector('.fa-plus');
+        
+        const newQuantity = isIncrease ? currentQuantity + 1 : currentQuantity - 1;
+        this.updateQuantity(productId, newQuantity);
+    }
+
+    handleRemoveItem(event) {
+        const cartItem = event.target.closest('.cart-item');
+        const productId = cartItem.dataset.productId;
+        this.removeFromCart(productId);
+        this.showNotification('Item removed from cart', 'info');
+    }
+
+    async updateQuantity(productId, newQuantity) {
+        try {
+            if (newQuantity <= 0) {
+                return await this.removeFromCart(productId);
+            }
+
+            // Update in database
+            const { error } = await this.supabase
+                .from('cart_items')
+                .update({ quantity: newQuantity })
+                .eq('user_id', this.currentUser.id)
+                .eq('product_id', productId);
+
+            if (error) throw error;
+
+            // Update local cart
+            const item = this.cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity = newQuantity;
+                this.updateCartUI();
+                this.renderCartItems();
+            }
+            
+            return { success: true };
+        } catch (error) {
+            console.error('Error updating quantity:', error);
+            return { success: false, error: error.message };
+        }
     }
 
     showNotification(message, type = 'info') {
         if (window.showNotification) {
             window.showNotification(message, type);
-        } else {
-            console.log(`${type.toUpperCase()}: ${message}`);
         }
     }
 

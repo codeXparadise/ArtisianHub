@@ -1,4 +1,4 @@
-// Authentication Service with Supabase Integration
+// Authentication Service with Complete Supabase Integration
 class AuthService {
     constructor() {
         this.supabase = null;
@@ -9,10 +9,10 @@ class AuthService {
 
     async init() {
         try {
-            // Wait for Supabase client
-            if (window.supabaseClient) {
-                await window.supabaseClient.initPromise;
-                this.supabase = window.supabaseClient.getClient();
+            // Wait for Supabase config
+            if (window.supabaseConfig) {
+                await window.supabaseConfig.initPromise;
+                this.supabase = window.supabaseConfig.getClient();
             }
 
             // Check existing auth state
@@ -43,18 +43,7 @@ class AuthService {
                     
                     if (userData) {
                         this.currentUser = userData;
-                        this.saveUserSession(userData);
-                    }
-                }
-            } else {
-                // Fallback to localStorage
-                const storedUser = localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser');
-                if (storedUser) {
-                    try {
-                        this.currentUser = JSON.parse(storedUser);
-                    } catch (error) {
-                        console.error('Error parsing stored user:', error);
-                        this.clearUserSession();
+                        this.updateAuthUI();
                     }
                 }
             }
@@ -86,7 +75,6 @@ class AuthService {
             
             if (userData) {
                 this.currentUser = userData;
-                this.saveUserSession(userData);
                 this.updateAuthUI();
                 
                 // Dispatch auth event
@@ -101,7 +89,6 @@ class AuthService {
 
     handleSignOut() {
         this.currentUser = null;
-        this.clearUserSession();
         this.updateAuthUI();
         
         // Dispatch auth event
@@ -112,77 +99,50 @@ class AuthService {
 
     async signUp(email, password, userData) {
         try {
-            if (this.supabase) {
-                // Sign up with Supabase Auth
-                const { data: authData, error: authError } = await this.supabase.auth.signUp({
-                    email,
-                    password,
-                    options: {
-                        data: {
-                            full_name: userData.fullName,
-                            is_artisan: userData.isArtisan || false
-                        }
-                    }
-                });
-
-                if (authError) throw authError;
-
-                // Create user record in database
-                const { data: newUser, error: userError } = await this.supabase
-                    .from('users')
-                    .insert([{
-                        id: authData.user.id,
-                        email: email,
+            // Sign up with Supabase Auth
+            const { data: authData, error: authError } = await this.supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
                         full_name: userData.fullName,
-                        phone: userData.phone,
-                        is_artisan: userData.isArtisan || false,
-                        profile_completed: !userData.isArtisan
-                    }])
-                    .select()
-                    .single();
-
-                if (userError) throw userError;
-
-                // If artisan, create artisan profile
-                if (userData.isArtisan) {
-                    const { error: artisanError } = await this.supabase
-                        .from('artisans')
-                        .insert([{
-                            user_id: authData.user.id,
-                            business_name: userData.fullName,
-                            craft_specialty: userData.craftSpecialty
-                        }]);
-
-                    if (artisanError) throw artisanError;
+                        is_artisan: userData.isArtisan || false
+                    }
                 }
+            });
 
-                return { success: true, data: newUser };
-            } else {
-                // Fallback to localStorage
-                const users = JSON.parse(localStorage.getItem('users') || '[]');
-                
-                if (users.find(u => u.email === email)) {
-                    throw new Error('User already exists');
-                }
+            if (authError) throw authError;
 
-                const newUser = {
-                    id: this.generateId(),
-                    email,
+            // Create user record in database
+            const { data: newUser, error: userError } = await this.supabase
+                .from('users')
+                .insert([{
+                    id: authData.user.id,
+                    email: email,
                     full_name: userData.fullName,
                     phone: userData.phone,
                     is_artisan: userData.isArtisan || false,
-                    profile_completed: !userData.isArtisan,
-                    created_at: new Date().toISOString()
-                };
+                    profile_completed: !userData.isArtisan
+                }])
+                .select()
+                .single();
 
-                users.push(newUser);
-                localStorage.setItem('users', JSON.stringify(users));
+            if (userError) throw userError;
 
-                this.currentUser = newUser;
-                this.saveUserSession(newUser);
+            // If artisan, create artisan profile
+            if (userData.isArtisan) {
+                const { error: artisanError } = await this.supabase
+                    .from('artisans')
+                    .insert([{
+                        user_id: authData.user.id,
+                        business_name: userData.fullName,
+                        craft_specialty: userData.craftSpecialty || 'General'
+                    }]);
 
-                return { success: true, data: newUser };
+                if (artisanError) throw artisanError;
             }
+
+            return { success: true, data: newUser };
         } catch (error) {
             console.error('Sign up error:', error);
             return { success: false, error: error.message };
@@ -191,28 +151,13 @@ class AuthService {
 
     async signIn(email, password) {
         try {
-            if (this.supabase) {
-                const { data, error } = await this.supabase.auth.signInWithPassword({
-                    email,
-                    password
-                });
+            const { data, error } = await this.supabase.auth.signInWithPassword({
+                email,
+                password
+            });
 
-                if (error) throw error;
-                return { success: true, data };
-            } else {
-                // Fallback to localStorage
-                const users = JSON.parse(localStorage.getItem('users') || '[]');
-                const user = users.find(u => u.email === email && u.password === password);
-                
-                if (!user) {
-                    throw new Error('Invalid email or password');
-                }
-
-                this.currentUser = user;
-                this.saveUserSession(user);
-                
-                return { success: true, data: user };
-            }
+            if (error) throw error;
+            return { success: true, data };
         } catch (error) {
             console.error('Sign in error:', error);
             return { success: false, error: error.message };
@@ -221,13 +166,10 @@ class AuthService {
 
     async signOut() {
         try {
-            if (this.supabase) {
-                const { error } = await this.supabase.auth.signOut();
-                if (error) throw error;
-            }
+            const { error } = await this.supabase.auth.signOut();
+            if (error) throw error;
             
             this.currentUser = null;
-            this.clearUserSession();
             this.updateAuthUI();
             
             return { success: true };
@@ -235,20 +177,6 @@ class AuthService {
             console.error('Sign out error:', error);
             return { success: false, error: error.message };
         }
-    }
-
-    saveUserSession(user, remember = true) {
-        const storage = remember ? localStorage : sessionStorage;
-        storage.setItem('currentUser', JSON.stringify(user));
-        
-        // Clear the other storage
-        const otherStorage = remember ? sessionStorage : localStorage;
-        otherStorage.removeItem('currentUser');
-    }
-
-    clearUserSession() {
-        localStorage.removeItem('currentUser');
-        sessionStorage.removeItem('currentUser');
     }
 
     updateAuthUI() {
@@ -313,10 +241,6 @@ class AuthService {
         if (logoutBtn) {
             logoutBtn.addEventListener('click', () => this.signOut());
         }
-    }
-
-    generateId() {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2);
     }
 
     // Public API
