@@ -169,7 +169,7 @@ class DatabaseService {
     async getProducts(filters = {}) {
         try {
             // Check if Supabase client is available
-            if (!this.supabase || !this.isConnected) {
+            if (!this.supabase) {
                 console.warn('Supabase client not available, using fallback data');
                 return this.getFallbackProducts();
             }
@@ -209,7 +209,6 @@ class DatabaseService {
             return { success: true, data: data || [] };
         } catch (error) {
             console.warn('Error getting products from database, using fallback:', error.message);
-            console.warn('Falling back to sample data');
             return this.getFallbackProducts();
         }
     }

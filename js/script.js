@@ -851,23 +851,14 @@ async function loadDynamicProducts() {
             </div>
         `;
         
-        // Wait for database service to be ready
-        let db;
-        if (window.databaseService) {
-            try {
-                await window.databaseService.initPromise;
-            } catch (initError) {
-                console.warn('Database service initialization failed:', initError.message);
-            }
-            db = window.databaseService;
-        }
-        
         let featuredProducts = [];
         
-        if (db) {
+        // Wait for database service to be ready
+        if (window.databaseService) {
             // Try to get products from database
             try {
-                const result = await db.getProducts({ 
+                await window.databaseService.initPromise;
+                const result = await window.databaseService.getProducts({ 
                     status: 'active', 
                     limit: 8,
                     sortBy: 'created_at',
@@ -957,20 +948,60 @@ async function loadDynamicProducts() {
         setupProductEventListeners();
         
     } catch (error) {
-        console.warn('Error in loadDynamicProducts:', error.message);
+        console.warn('Error in loadDynamicProducts, showing fallback products:', error.message);
         
-        // Show error message
-        productGrid.innerHTML = `
-            <div class="error-message" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
-                <i class="fas fa-info-circle" style="font-size: 2rem; color: var(--primary-color);"></i>
-                <p style="margin-top: 1rem; color: var(--text-light);">Loading sample products...</p>
-            </div>
-        `;
+        // Directly show fallback products on any error
+        const fallbackProducts = [
+            {
+                id: 1,
+                title: "Handcrafted Ceramic Bowl Set",
+                artist_name: "Sarah Martinez",
+                price: 89.99,
+                original_price: 119.99,
+                category: "Pottery",
+                image_url: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+                rating: 5,
+                review_count: 24,
+                is_featured: true
+            },
+            {
+                id: 2,
+                title: "Traditional Handwoven Tapestry",
+                artist_name: "Elena Rossi",
+                price: 245.00,
+                category: "Textiles",
+                image_url: "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=400&h=400&fit=crop",
+                rating: 5,
+                review_count: 18,
+                is_featured: false
+            },
+            {
+                id: 3,
+                title: "Modern Wood Sculpture",
+                artist_name: "Marcus Chen",
+                price: 380.00,
+                category: "Woodwork",
+                image_url: "https://images.unsplash.com/photo-1596367407372-96cb88503db6?w=400&h=400&fit=crop",
+                rating: 4,
+                review_count: 12,
+                is_featured: false,
+                is_new: true
+            },
+            {
+                id: 4,
+                title: "Sterling Silver Pendant Necklace",
+                artist_name: "Luna Crafts",
+                price: 125.00,
+                category: "Jewelry",
+                image_url: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop",
+                rating: 5,
+                review_count: 31,
+                is_featured: false
+            }
+        ];
         
-        // Load fallback products even on error
-        setTimeout(() => {
-            loadDynamicProducts();
-        }, 1000);
+        renderProducts(fallbackProducts);
+        setupProductEventListeners();
     }
 }
 
