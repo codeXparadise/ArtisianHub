@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - ArtisanHub</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <a href="../index.html" style="text-decoration: none; color: inherit;">
+                    <h1 class="brand__logo">ArtisanHub</h1>
+                    <span class="brand__tagline">Handcrafted with Love</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main" style="min-height: 70vh; padding: 60px 0;">
+        <div class="container" style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <!-- Success Icon -->
+            <div style="width: 100px; height: 100px; background: #28a745; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 32px;">
+                <i class="fas fa-check" style="font-size: 50px; color: white;"></i>
+            </div>
+
+            <!-- Confirmation Message -->
+            <h1 style="color: #333; margin-bottom: 16px; font-size: 36px;">Order Confirmed!</h1>
+            <p style="color: #666; font-size: 18px; margin-bottom: 32px;">
+                Thank you for your purchase. Your order has been successfully placed.
+            </p>
+
+            <!-- Order Details -->
+            <div style="background: white; padding: 32px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: left; margin-bottom: 32px;">
+                <h2 style="color: #333; margin-bottom: 20px; font-size: 24px;">Order Details</h2>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 2px solid #f0f0f0;">
+                    <div>
+                        <p style="color: #999; font-size: 14px; margin-bottom: 4px;">Order Number</p>
+                        <p style="color: #333; font-weight: 600; font-size: 16px;" id="order-number">#</p>
+                    </div>
+                    <div>
+                        <p style="color: #999; font-size: 14px; margin-bottom: 4px;">Order Date</p>
+                        <p style="color: #333; font-weight: 600; font-size: 16px;" id="order-date"></p>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 24px;">
+                    <h3 style="color: #333; margin-bottom: 16px; font-size: 18px;">What's Next?</h3>
+                    <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px;">
+                        <div style="width: 40px; height: 40px; background: #8B4513; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fas fa-envelope" style="color: white; font-size: 18px;"></i>
+                        </div>
+                        <div>
+                            <h4 style="color: #333; margin-bottom: 4px; font-size: 16px;">Confirmation Email</h4>
+                            <p style="color: #666; font-size: 14px;">We've sent a confirmation email with your order details.</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px;">
+                        <div style="width: 40px; height: 40px; background: #8B4513; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fas fa-box" style="color: white; font-size: 18px;"></i>
+                        </div>
+                        <div>
+                            <h4 style="color: #333; margin-bottom: 4px; font-size: 16px;">Artisan Processing</h4>
+                            <p style="color: #666; font-size: 14px;">The artisan will prepare your handcrafted items with care.</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: flex-start; gap: 16px;">
+                        <div style="width: 40px; height: 40px; background: #8B4513; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fas fa-shipping-fast" style="color: white; font-size: 18px;"></i>
+                        </div>
+                        <div>
+                            <h4 style="color: #333; margin-bottom: 4px; font-size: 16px;">Shipping Updates</h4>
+                            <p style="color: #666; font-size: 14px;">You'll receive tracking information once your order ships.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;">
+                    <p style="color: #666; margin-bottom: 12px;">
+                        <i class="fas fa-info-circle" style="margin-right: 8px; color: #8B4513;"></i>
+                        Estimated delivery: <strong>5-7 business days</strong>
+                    </p>
+                    <p style="color: #999; font-size: 14px;">
+                        Handcrafted items may require additional processing time
+                    </p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <a href="../index.html" class="btn btn--primary" style="padding: 14px 32px; text-decoration: none; background: #8B4513; color: white; border-radius: 6px; font-weight: 600;">
+                    Continue Shopping
+                </a>
+                <a href="dashboard.html" class="btn btn--outline" style="padding: 14px 32px; text-decoration: none; border: 2px solid #8B4513; color: #8B4513; border-radius: 6px; font-weight: 600; background: white;">
+                    View Orders
+                </a>
+            </div>
+
+            <!-- Support Info -->
+            <div style="margin-top: 48px; padding-top: 32px; border-top: 2px solid #f0f0f0;">
+                <p style="color: #666; margin-bottom: 8px;">Need help with your order?</p>
+                <a href="contact.html" style="color: #8B4513; font-weight: 600; text-decoration: none;">
+                    Contact Support <i class="fas fa-arrow-right" style="margin-left: 4px;"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    © 2025 ArtisanHub. All rights reserved. Made with love for artisans worldwide.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Display order number and date
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderNumber = urlParams.get('order') || Date.now();
+            const orderDate = new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+
+            document.getElementById('order-number').textContent = '#' + orderNumber;
+            document.getElementById('order-date').textContent = orderDate;
+
+            // Confetti effect (simple celebration)
+            setTimeout(() => {
+                console.log('🎉 Order confirmed successfully!');
+            }, 500);
+        });
+    </script>
+</body>
+</html>
