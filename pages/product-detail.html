@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - ArtisanHub</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <a href="../index.html" style="text-decoration: none; color: inherit;">
+                    <h1 class="brand__logo">ArtisanHub</h1>
+                    <span class="brand__tagline">Handcrafted with Love</span>
+                </a>
+            </div>
+            
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="../index.html" class="nav__link">Home</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="marketplace.html" class="nav__link active">Marketplace</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#" class="nav__link">About</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav__actions">
+                <button class="cart-btn" id="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+                <a href="user-auth.html" class="btn btn--outline btn--sm">Sign In</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main" style="min-height: 80vh; padding: 40px 0;">
+        <div class="container" style="max-width: 1200px; margin: 0 auto;">
+            <!-- Breadcrumb -->
+            <div style="margin-bottom: 32px;">
+                <a href="../index.html" style="color: #999; text-decoration: none;">Home</a>
+                <span style="color: #999; margin: 0 8px;">/</span>
+                <a href="marketplace.html" style="color: #999; text-decoration: none;">Marketplace</a>
+                <span style="color: #999; margin: 0 8px;">/</span>
+                <span style="color: #333;" id="breadcrumb-product">Product</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px;">
+                <!-- Product Images -->
+                <div>
+                    <div style="background: #f8f9fa; border-radius: 12px; padding: 40px; margin-bottom: 16px; height: 500px; display: flex; align-items: center; justify-content: center;">
+                        <img id="main-image" src="https://via.placeholder.com/400" alt="Product" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px;">
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;" id="thumbnail-gallery">
+                        <!-- Thumbnails will be generated here -->
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div>
+                    <div style="margin-bottom: 16px;">
+                        <span id="product-category" style="color: #8B4513; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Category</span>
+                    </div>
+                    <h1 id="product-title" style="color: #333; font-size: 36px; margin-bottom: 16px; line-height: 1.2;">Product Title</h1>
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+                        <div class="stars" id="product-rating">
+                            <i class="fas fa-star" style="color: #ffc107;"></i>
+                            <i class="fas fa-star" style="color: #ffc107;"></i>
+                            <i class="fas fa-star" style="color: #ffc107;"></i>
+                            <i class="fas fa-star" style="color: #ffc107;"></i>
+                            <i class="fas fa-star" style="color: #ffc107;"></i>
+                        </div>
+                        <span id="review-count" style="color: #999;">(0 reviews)</span>
+                    </div>
+                    <div style="margin-bottom: 32px;">
+                        <span id="product-price" style="font-size: 32px; font-weight: 700; color: #333;">$0.00</span>
+                    </div>
+
+                    <div style="border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; padding: 24px 0; margin-bottom: 32px;">
+                        <p id="product-description" style="color: #666; line-height: 1.8;">
+                            Product description will appear here...
+                        </p>
+                    </div>
+
+                    <!-- Artisan Info -->
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 32px;">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <img id="artisan-avatar" src="https://via.placeholder.com/60" alt="Artisan" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <p style="color: #999; font-size: 14px; margin-bottom: 4px;">Handcrafted by</p>
+                                <h3 id="artisan-name" style="color: #333; font-size: 18px; font-weight: 600;">Artisan Name</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quantity Selector -->
+                    <div style="margin-bottom: 24px;">
+                        <label style="display: block; margin-bottom: 12px; color: #333; font-weight: 600;">Quantity</label>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <button id="qty-decrease" style="width: 40px; height: 40px; border: 1px solid #ddd; background: white; border-radius: 6px; cursor: pointer; font-size: 18px;">-</button>
+                            <input type="number" id="quantity" value="1" min="1" max="10" style="width: 60px; height: 40px; border: 1px solid #ddd; border-radius: 6px; text-align: center; font-size: 16px;">
+                            <button id="qty-increase" style="width: 40px; height: 40px; border: 1px solid #ddd; background: white; border-radius: 6px; cursor: pointer; font-size: 18px;">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div style="display: grid; grid-template-columns: 3fr 1fr; gap: 12px; margin-bottom: 24px;">
+                        <button id="add-to-cart-btn" class="btn btn--primary" style="background: #8B4513; color: white; border: none; padding: 16px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer;">
+                            <i class="fas fa-shopping-cart" style="margin-right: 8px;"></i>
+                            Add to Cart
+                        </button>
+                        <button id="wishlist-btn" style="border: 2px solid #8B4513; background: white; color: #8B4513; padding: 16px; border-radius: 6px; cursor: pointer;">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+
+                    <!-- Product Features -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <i class="fas fa-shield-alt" style="color: #8B4513; font-size: 24px;"></i>
+                            <div>
+                                <p style="color: #333; font-weight: 600; margin-bottom: 2px;">Quality Guaranteed</p>
+                                <p style="color: #999; font-size: 12px;">100% Handmade</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <i class="fas fa-shipping-fast" style="color: #8B4513; font-size: 24px;"></i>
+                            <div>
+                                <p style="color: #333; font-weight: 600; margin-bottom: 2px;">Free Shipping</p>
+                                <p style="color: #999; font-size: 12px;">On orders over $50</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Tabs -->
+            <div style="margin-bottom: 60px;">
+                <div style="display: flex; gap: 32px; border-bottom: 2px solid #e0e0e0; margin-bottom: 32px;">
+                    <button class="tab-btn active" data-tab="details" style="border: none; background: none; padding: 16px 0; font-size: 16px; font-weight: 600; color: #333; cursor: pointer; border-bottom: 3px solid #8B4513; margin-bottom: -2px;">Details</button>
+                    <button class="tab-btn" data-tab="reviews" style="border: none; background: none; padding: 16px 0; font-size: 16px; font-weight: 600; color: #999; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px;">Reviews (0)</button>
+                    <button class="tab-btn" data-tab="shipping" style="border: none; background: none; padding: 16px 0; font-size: 16px; font-weight: 600; color: #999; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px;">Shipping</button>
+                </div>
+
+                <div class="tab-content active" id="tab-details">
+                    <div style="max-width: 800px;">
+                        <h3 style="color: #333; margin-bottom: 16px;">Product Details</h3>
+                        <p style="color: #666; line-height: 1.8; margin-bottom: 24px;">
+                            This beautiful handcrafted item is made with care and attention to detail by skilled artisans. Each piece is unique and may have slight variations that add to its character and charm.
+                        </p>
+                        <ul style="color: #666; line-height: 2;">
+                            <li>100% handmade by skilled artisans</li>
+                            <li>Made from premium quality materials</li>
+                            <li>Unique design - no two pieces are exactly alike</li>
+                            <li>Sustainable and ethically sourced</li>
+                            <li>Ships from artisan's workshop</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-reviews" style="display: none;">
+                    <p style="color: #666;">No reviews yet. Be the first to review this product!</p>
+                </div>
+
+                <div class="tab-content" id="tab-shipping" style="display: none;">
+                    <div style="max-width: 800px;">
+                        <h3 style="color: #333; margin-bottom: 16px;">Shipping Information</h3>
+                        <p style="color: #666; line-height: 1.8; margin-bottom: 16px;">
+                            We offer worldwide shipping on all products. Since each item is handcrafted to order, please allow 5-7 business days for production before shipping.
+                        </p>
+                        <ul style="color: #666; line-height: 2;">
+                            <li>Standard Shipping: 5-7 business days (Free on orders over $50)</li>
+                            <li>Express Shipping: 2-3 business days ($15)</li>
+                            <li>International Shipping: 10-14 business days</li>
+                            <li>All items are carefully packaged to ensure safe delivery</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    © 2025 ArtisanHub. All rights reserved. Made with love for artisans worldwide.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart__header">
+            <h3 class="cart__title">Shopping Cart</h3>
+            <button class="cart__close" id="cart-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart__content" id="cart-content">
+            <div class="cart__empty" id="cart-empty">
+                <i class="fas fa-shopping-cart empty__icon"></i>
+                <p class="empty__text">Your cart is empty</p>
+            </div>
+            <div class="cart__items" id="cart-items"></div>
+        </div>
+        <div class="cart__footer" id="cart-footer" style="display: none;">
+            <div class="cart__total">
+                <span class="total__label">Total: </span>
+                <span class="total__amount" id="cart-total">$0.00</span>
+            </div>
+            <a href="checkout.html" class="btn btn--primary btn--full" style="text-decoration: none; display: block; text-align: center;">Proceed to Checkout</a>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+
+    <script type="module" src="../js/supabase-config.js"></script>
+    <script type="module" src="../js/database-service.js"></script>
+    <script type="module" src="../js/auth-service.js"></script>
+    <script type="module" src="../js/cart-service.js"></script>
+    <script type="module">
+        // Product detail page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProductDetails();
+            setupQuantityControls();
+            setupAddToCart();
+            setupTabs();
+            setupCartUI();
+        });
+
+        function loadProductDetails() {
+            // Get product ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            if (productId) {
+                // Load product from database or fallback data
+                loadProductFromId(productId);
+            } else {
+                // Load sample product
+                loadSampleProduct();
+            }
+        }
+
+        function loadSampleProduct() {
+            const sampleProduct = {
+                id: 1,
+                title: "Handcrafted Ceramic Vase",
+                category: "Ceramics",
+                price: 45.00,
+                description: "Beautiful handmade ceramic vase with unique glaze patterns. Perfect for displaying fresh or dried flowers. Each piece is one-of-a-kind.",
+                image: "https://via.placeholder.com/400",
+                artisan: "Clay Creations",
+                rating: 5,
+                reviews: 0
+            };
+
+            displayProduct(sampleProduct);
+        }
+
+        function loadProductFromId(id) {
+            // This would load from database in production
+            loadSampleProduct();
+        }
+
+        function displayProduct(product) {
+            document.getElementById('product-title').textContent = product.title;
+            document.getElementById('product-category').textContent = product.category;
+            document.getElementById('product-price').textContent = `$${product.price.toFixed(2)}`;
+            document.getElementById('product-description').textContent = product.description;
+            document.getElementById('main-image').src = product.image;
+            document.getElementById('artisan-name').textContent = product.artisan;
+            document.getElementById('review-count').textContent = `(${product.reviews} reviews)`;
+            document.getElementById('breadcrumb-product').textContent = product.title;
+
+            // Store product data
+            window.currentProduct = product;
+        }
+
+        function setupQuantityControls() {
+            const qtyInput = document.getElementById('quantity');
+            const decreaseBtn = document.getElementById('qty-decrease');
+            const increaseBtn = document.getElementById('qty-increase');
+
+            decreaseBtn.addEventListener('click', () => {
+                const currentValue = parseInt(qtyInput.value);
+                if (currentValue > 1) {
+                    qtyInput.value = currentValue - 1;
+                }
+            });
+
+            increaseBtn.addEventListener('click', () => {
+                const currentValue = parseInt(qtyInput.value);
+                if (currentValue < 10) {
+                    qtyInput.value = currentValue + 1;
+                }
+            });
+        }
+
+        function setupAddToCart() {
+            const addToCartBtn = document.getElementById('add-to-cart-btn');
+            
+            addToCartBtn.addEventListener('click', () => {
+                const quantity = parseInt(document.getElementById('quantity').value);
+                
+                if (window.cartService && window.currentProduct) {
+                    window.cartService.addToCart(window.currentProduct, quantity);
+                    
+                    // Show success feedback
+                    addToCartBtn.innerHTML = '<i class="fas fa-check" style="margin-right: 8px;"></i>Added to Cart!';
+                    addToCartBtn.style.background = '#28a745';
+                    
+                    setTimeout(() => {
+                        addToCartBtn.innerHTML = '<i class="fas fa-shopping-cart" style="margin-right: 8px;"></i>Add to Cart';
+                        addToCartBtn.style.background = '#8B4513';
+                    }, 2000);
+                }
+            });
+        }
+
+        function setupTabs() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(b => {
+                        b.classList.remove('active');
+                        b.style.color = '#999';
+                        b.style.borderColor = 'transparent';
+                    });
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                        content.style.display = 'none';
+                    });
+
+                    // Add active class to clicked button
+                    btn.classList.add('active');
+                    btn.style.color = '#333';
+                    btn.style.borderColor = '#8B4513';
+
+                    // Show corresponding content
+                    const tabName = btn.getAttribute('data-tab');
+                    const tabContent = document.getElementById('tab-' + tabName);
+                    if (tabContent) {
+                        tabContent.classList.add('active');
+                        tabContent.style.display = 'block';
+                    }
+                });
+            });
+        }
+
+        function setupCartUI() {
+            // Simple cart UI setup
+            const cartBtn = document.getElementById('cart-btn');
+            const cartSidebar = document.getElementById('cart-sidebar');
+            const cartOverlay = document.getElementById('cart-overlay');
+            const cartClose = document.getElementById('cart-close');
+
+            if (cartBtn) {
+                cartBtn.addEventListener('click', () => {
+                    cartSidebar.classList.add('active');
+                    cartOverlay.classList.add('active');
+                    updateCartDisplay();
+                });
+            }
+
+            if (cartClose) {
+                cartClose.addEventListener('click', () => {
+                    cartSidebar.classList.remove('active');
+                    cartOverlay.classList.remove('active');
+                });
+            }
+
+            if (cartOverlay) {
+                cartOverlay.addEventListener('click', () => {
+                    cartSidebar.classList.remove('active');
+                    cartOverlay.classList.remove('active');
+                });
+            }
+        }
+
+        function updateCartDisplay() {
+            const checkCartService = setInterval(() => {
+                if (window.cartService) {
+                    clearInterval(checkCartService);
+                    const cart = window.cartService.getCart();
+                    const cartCount = document.getElementById('cart-count');
+                    if (cartCount) {
+                        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                        cartCount.textContent = totalItems;
+                    }
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>

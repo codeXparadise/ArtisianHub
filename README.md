@@ -37,11 +37,11 @@ ArtisanHub is a modern, responsive e-commerce platform designed for artisans and
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/en/) for local development
+- [Node.js](https://nodejs.org/en/) (v16 or higher) for local development
 - [Git](https://git-scm.com/) for version control
-- [Supabase](https://supabase.io/) account for database integration
+- [Supabase](https://supabase.io/) account for database integration (optional - works offline without it)
 
-### Steps
+### Quick Start
 
 1. **Clone the repository:**
    ```bash
@@ -53,26 +53,84 @@ ArtisanHub is a modern, responsive e-commerce platform designed for artisans and
    ```bash
    npm install
    ```
-   (This project largely relies on HTML, CSS, and JavaScript, so dependencies might be minimal.)
 
-3. **Configure Supabase:**
-   - Update `js/supabase-config.js` with your Supabase credentials.
-
-4. **Start a local development server:**
+3. **Configure Environment (Optional):**
+   
+   The app works in offline mode without configuration. To enable full features:
+   
    ```bash
-   npx http-server -p 3000
+   cp .env.example .env
    ```
-   Or use the VS Code Live Server extension to open `index.html`.
+   
+   Then edit `.env` and add your Supabase credentials:
+   ```env
+   VITE_SUPABASE_URL=your_supabase_project_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
 
-5. **Access the Application:**
-   Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
+4. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+   
+   The app will be available at [http://localhost:3000](http://localhost:3000)
+
+5. **Build for production:**
+   ```bash
+   npm run build
+   ```
+   
+   The production-ready files will be in the `dist/` folder.
+
+### Features Available in Different Modes
+
+**Offline Mode (No Supabase):**
+- ✅ Browse product catalog
+- ✅ Add items to cart
+- ✅ View all pages
+- ✅ Complete UI walkthrough
+- ❌ User authentication
+- ❌ Artisan product uploads
+- ❌ Real-time updates
+
+**Online Mode (With Supabase):**
+- ✅ All offline features
+- ✅ User registration and login
+- ✅ Artisan dashboard and product management
+- ✅ Order history and tracking
+- ✅ Real-time product updates
+- ✅ Persistent cart across devices
+
+### Deployment
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions for various platforms (Vercel, Netlify, GitHub Pages, etc.).
 
 ## Usage
 
-- **Homepage:** Browse featured products and artisan listings.
-- **User Authentication:** Use the Sign In/Register buttons to access your account.
-- **Become an Artisan:** Register as an artisan to start uploading your handcrafted creations.
-- **Shopping Cart:** Add products to your cart, update quantities, and proceed to checkout.
+### For Customers
+
+1. **Browse Products:** Visit the homepage or marketplace to discover handcrafted items
+2. **Search & Filter:** Use the search bar and filters to find specific products
+3. **Add to Cart:** Click "Add to Cart" on any product
+4. **Checkout:** Click the cart icon, review items, and proceed to checkout
+5. **Create Account:** Sign up to track orders and save favorites
+
+### For Artisans
+
+1. **Register:** Click "Become an Artisan" and complete the registration
+2. **Set Up Profile:** Complete your artisan profile with bio and photos
+3. **Upload Products:** Use the dashboard to add your handcrafted items
+4. **Manage Orders:** Track sales and fulfill customer orders
+5. **Build Portfolio:** Showcase your work to potential customers worldwide
+
+### Key Features
+
+- 🛍️ **Shopping Cart:** Persistent cart that saves across sessions
+- 🔐 **User Authentication:** Secure login and registration
+- 🎨 **Artisan Dashboard:** Complete product management system
+- 💳 **Checkout Flow:** Streamlined checkout with multiple payment options
+- 📱 **Responsive Design:** Works perfectly on all devices
+- 🌐 **Offline Support:** Browse products even without database connection
 
 ## Project Structure
 
@@ -125,17 +183,88 @@ ArtisianHub/
 4. **Real-time Updates:**
    - Dynamic content loading ensures users always view the latest data.
 
+## Pages Overview
+
+- **Homepage (`index.html`):** Landing page with featured products and artisans
+- **Marketplace (`pages/marketplace.html`):** Full product catalog with filters
+- **User Authentication (`pages/user-auth.html`):** Login and registration
+- **Artisan Registration (`pages/become-artisan.html`):** Artisan onboarding
+- **Dashboard (`pages/dashboard.html`):** Artisan management dashboard
+- **Product Upload (`pages/add-product.html`):** Add new products
+- **Product Detail (`pages/product-detail.html`):** Detailed product view
+- **Checkout (`pages/checkout.html`):** Complete purchase flow
+- **Order Confirmation (`pages/order-confirmation.html`):** Order success page
+- **Contact (`pages/contact.html`):** Contact form and information
+- **Profile Setup (`pages/profile-setup.html`):** User profile management
+
 ## Contributing
 
-Contributions are welcome! Please:
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/YourFeature`).
-3. Commit your changes (`git commit -m 'Add some feature'`).
-4. Push to the branch (`git push origin feature/YourFeature`).
-5. Open a pull request.
+We welcome contributions! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
+- Code style and standards
+- Commit message format
+- Pull request process
+- Bug reporting
+- Feature requests
 
-Please ensure your code adheres to the existing style and includes proper testing.
+## Documentation
+
+- 📖 [Deployment Guide](DEPLOYMENT.md) - Deploy to production
+- 🤝 [Contributing Guide](CONTRIBUTING.md) - How to contribute
+- 📊 [Data Pipeline](DATA_PIPELINE.md) - Data flow architecture
+- ✅ [Test Summary](TEST_SUMMARY.md) - Testing overview
+
+## Browser Support
+
+- ✅ Chrome/Edge (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Mobile browsers
+
+## Performance
+
+- Fast initial load time
+- Optimized images and assets
+- Efficient code splitting
+- Progressive enhancement
+
+## Security
+
+- Secure authentication with Supabase
+- Row-level security on database
+- HTTPS enforced in production
+- Environment variables for sensitive data
+- Input validation and sanitization
+
+## Roadmap
+
+- [ ] Payment gateway integration (Stripe/PayPal)
+- [ ] Advanced search and filtering
+- [ ] Product reviews and ratings
+- [ ] Wishlist functionality
+- [ ] Email notifications
+- [ ] Admin panel
+- [ ] Analytics dashboard
+- [ ] Multi-language support
+- [ ] Mobile app (React Native)
 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- UI inspiration from modern e-commerce platforms
+- Icons from Font Awesome
+- Fonts from Google Fonts
+- Database and Auth by Supabase
+
+## Support
+
+For support, please:
+- Open an issue on GitHub
+- Email: support@artisanhub.com
+- Check the documentation
+
+---
+
+**Made with ❤️ for artisans worldwide**

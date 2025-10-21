@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - ArtisanHub</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <a href="../index.html" style="text-decoration: none; color: inherit;">
+                    <h1 class="brand__logo">ArtisanHub</h1>
+                    <span class="brand__tagline">Handcrafted with Love</span>
+                </a>
+            </div>
+            
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="../index.html" class="nav__link">Home</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="marketplace.html" class="nav__link">Marketplace</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#" class="nav__link">About</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="contact.html" class="nav__link active">Contact</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav__actions">
+                <a href="user-auth.html" class="btn btn--outline btn--sm">Sign In</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main" style="min-height: 80vh; padding: 60px 0;">
+        <div class="container" style="max-width: 1200px; margin: 0 auto;">
+            <!-- Page Header -->
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h1 style="color: #333; font-size: 42px; margin-bottom: 16px;">Get in Touch</h1>
+                <p style="color: #666; font-size: 18px; max-width: 600px; margin: 0 auto;">
+                    Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+                </p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;">
+                <!-- Contact Form -->
+                <div style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <h2 style="color: #333; margin-bottom: 24px; font-size: 28px;">Send us a Message</h2>
+                    <form id="contact-form">
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">Name *</label>
+                            <input type="text" id="name" required style="width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: inherit;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">Email *</label>
+                            <input type="email" id="email" required style="width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: inherit;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">Subject *</label>
+                            <select id="subject" required style="width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: inherit; background: white;">
+                                <option value="">Select a subject</option>
+                                <option value="order">Order Inquiry</option>
+                                <option value="product">Product Question</option>
+                                <option value="artisan">Artisan Application</option>
+                                <option value="technical">Technical Support</option>
+                                <option value="partnership">Partnership Opportunity</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 24px;">
+                            <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">Message *</label>
+                            <textarea id="message" required rows="6" style="width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: inherit; resize: vertical;"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--full" style="background: #8B4513; color: white; border: none; padding: 16px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%;">
+                            Send Message
+                        </button>
+                    </form>
+                    <div id="form-message" style="margin-top: 16px; padding: 12px; border-radius: 6px; display: none;"></div>
+                </div>
+
+                <!-- Contact Information -->
+                <div>
+                    <div style="margin-bottom: 40px;">
+                        <h2 style="color: #333; margin-bottom: 24px; font-size: 28px;">Contact Information</h2>
+                        <p style="color: #666; line-height: 1.8; margin-bottom: 32px;">
+                            We're here to help! Whether you're a customer looking for the perfect handcrafted item or an artisan interested in joining our platform, we'd love to hear from you.
+                        </p>
+
+                        <div style="display: flex; flex-direction: column; gap: 24px;">
+                            <!-- Email -->
+                            <div style="display: flex; align-items: start; gap: 16px;">
+                                <div style="width: 48px; height: 48px; background: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i class="fas fa-envelope" style="color: #8B4513; font-size: 20px;"></i>
+                                </div>
+                                <div>
+                                    <h3 style="color: #333; margin-bottom: 4px; font-size: 16px;">Email Us</h3>
+                                    <p style="color: #666;">support@artisanhub.com</p>
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div style="display: flex; align-items: start; gap: 16px;">
+                                <div style="width: 48px; height: 48px; background: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i class="fas fa-phone" style="color: #8B4513; font-size: 20px;"></i>
+                                </div>
+                                <div>
+                                    <h3 style="color: #333; margin-bottom: 4px; font-size: 16px;">Call Us</h3>
+                                    <p style="color: #666;">1-800-ARTISAN</p>
+                                    <p style="color: #999; font-size: 14px;">Mon-Fri: 9am-6pm EST</p>
+                                </div>
+                            </div>
+
+                            <!-- Address -->
+                            <div style="display: flex; align-items: start; gap: 16px;">
+                                <div style="width: 48px; height: 48px; background: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i class="fas fa-map-marker-alt" style="color: #8B4513; font-size: 20px;"></i>
+                                </div>
+                                <div>
+                                    <h3 style="color: #333; margin-bottom: 4px; font-size: 16px;">Visit Us</h3>
+                                    <p style="color: #666;">123 Artisan Street<br>Craftville, CA 94000<br>United States</p>
+                                </div>
+                            </div>
+
+                            <!-- Social Media -->
+                            <div style="display: flex; align-items: start; gap: 16px;">
+                                <div style="width: 48px; height: 48px; background: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i class="fas fa-share-alt" style="color: #8B4513; font-size: 20px;"></i>
+                                </div>
+                                <div>
+                                    <h3 style="color: #333; margin-bottom: 8px; font-size: 16px;">Follow Us</h3>
+                                    <div style="display: flex; gap: 12px;">
+                                        <a href="#" style="width: 36px; height: 36px; background: #8B4513; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                                            <i class="fab fa-facebook-f" style="color: white; font-size: 16px;"></i>
+                                        </a>
+                                        <a href="#" style="width: 36px; height: 36px; background: #8B4513; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                                            <i class="fab fa-instagram" style="color: white; font-size: 16px;"></i>
+                                        </a>
+                                        <a href="#" style="width: 36px; height: 36px; background: #8B4513; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                                            <i class="fab fa-twitter" style="color: white; font-size: 16px;"></i>
+                                        </a>
+                                        <a href="#" style="width: 36px; height: 36px; background: #8B4513; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                                            <i class="fab fa-pinterest" style="color: white; font-size: 16px;"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Quick Links -->
+                    <div style="background: #f8f9fa; padding: 24px; border-radius: 12px;">
+                        <h3 style="color: #333; margin-bottom: 16px; font-size: 20px;">Quick Links</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 12px;">
+                                <a href="#" style="color: #8B4513; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                                    Shipping & Delivery
+                                </a>
+                            </li>
+                            <li style="margin-bottom: 12px;">
+                                <a href="#" style="color: #8B4513; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                                    Returns & Refunds
+                                </a>
+                            </li>
+                            <li style="margin-bottom: 12px;">
+                                <a href="#" style="color: #8B4513; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                                    Become an Artisan
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" style="color: #8B4513; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                                    FAQs
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <h3 class="footer__title">ArtisanHub</h3>
+                    <p class="footer__description">
+                        Connecting artisans with the world through beautiful handcrafted creations.
+                    </p>
+                </div>
+                
+                <div class="footer__section">
+                    <h4 class="footer__subtitle">Support</h4>
+                    <ul class="footer__links">
+                        <li><a href="#" class="footer__link">Help Center</a></li>
+                        <li><a href="#" class="footer__link">Shipping Info</a></li>
+                        <li><a href="#" class="footer__link">Returns</a></li>
+                        <li><a href="contact.html" class="footer__link">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    © 2025 ArtisanHub. All rights reserved. Made with love for artisans worldwide.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contact-form');
+            const formMessage = document.getElementById('form-message');
+
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Get form values
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+
+                // Simulate form submission
+                formMessage.style.display = 'block';
+                formMessage.style.background = '#d4edda';
+                formMessage.style.color = '#155724';
+                formMessage.style.border = '1px solid #c3e6cb';
+                formMessage.innerHTML = `
+                    <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+                    Thank you for your message! We'll get back to you within 24 hours.
+                `;
+
+                // Reset form
+                contactForm.reset();
+
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                }, 5000);
+            });
+        });
+    </script>
+</body>
+</html>

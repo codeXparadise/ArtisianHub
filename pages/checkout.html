@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - ArtisanHub</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/enhanced-styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__brand">
+                <a href="../index.html" style="text-decoration: none; color: inherit;">
+                    <h1 class="brand__logo">ArtisanHub</h1>
+                    <span class="brand__tagline">Handcrafted with Love</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main" style="min-height: 80vh; padding: 40px 0;">
+        <div class="container">
+            <!-- Checkout Progress -->
+            <div class="checkout-progress" style="max-width: 800px; margin: 0 auto 40px;">
+                <div class="progress-steps" style="display: flex; justify-content: space-between; align-items: center; position: relative;">
+                    <div class="step active" style="flex: 1; text-align: center; position: relative; z-index: 2;">
+                        <div class="step-icon" style="width: 40px; height: 40px; border-radius: 50%; background: #8B4513; color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-weight: 600;">1</div>
+                        <div class="step-label" style="font-size: 14px; color: #333;">Cart</div>
+                    </div>
+                    <div class="step-line" style="position: absolute; top: 20px; left: 25%; right: 25%; height: 2px; background: #ddd; z-index: 1;"></div>
+                    <div class="step active" style="flex: 1; text-align: center; position: relative; z-index: 2;">
+                        <div class="step-icon" style="width: 40px; height: 40px; border-radius: 50%; background: #8B4513; color: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-weight: 600;">2</div>
+                        <div class="step-label" style="font-size: 14px; color: #333;">Checkout</div>
+                    </div>
+                    <div class="step-line" style="position: absolute; top: 20px; left: 50%; right: 0; height: 2px; background: #ddd; z-index: 1;"></div>
+                    <div class="step" style="flex: 1; text-align: center; position: relative; z-index: 2;">
+                        <div class="step-icon" style="width: 40px; height: 40px; border-radius: 50%; background: #ddd; color: #666; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-weight: 600;">3</div>
+                        <div class="step-label" style="font-size: 14px; color: #666;">Confirmation</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkout-container" style="display: grid; grid-template-columns: 1fr 400px; gap: 40px; max-width: 1200px; margin: 0 auto;">
+                <!-- Checkout Form -->
+                <div class="checkout-form">
+                    <h2 style="margin-bottom: 24px; color: #333;">Checkout</h2>
+                    
+                    <form id="checkout-form">
+                        <!-- Contact Information -->
+                        <div class="form-section" style="background: white; padding: 24px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h3 style="margin-bottom: 20px; color: #333;">Contact Information</h3>
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">Email</label>
+                                <input type="email" id="email" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <label style="display: flex; align-items: center; color: #555;">
+                                    <input type="checkbox" style="margin-right: 8px;">
+                                    Email me with news and offers
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Information -->
+                        <div class="form-section" style="background: white; padding: 24px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h3 style="margin-bottom: 20px; color: #333;">Shipping Address</h3>
+                            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                                <div class="form-group">
+                                    <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">First Name</label>
+                                    <input type="text" id="firstName" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                                </div>
+                                <div class="form-group">
+                                    <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">Last Name</label>
+                                    <input type="text" id="lastName" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">Address</label>
+                                <input type="text" id="address" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">Apartment, suite, etc. (optional)</label>
+                                <input type="text" id="apartment" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                            </div>
+                            <div class="form-row" style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                                <div class="form-group">
+                                    <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">City</label>
+                                    <input type="text" id="city" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                                </div>
+                                <div class="form-group">
+                                    <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">State</label>
+                                    <input type="text" id="state" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                                </div>
+                                <div class="form-group">
+                                    <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">ZIP</label>
+                                    <input type="text" id="zip" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">Country</label>
+                                <select id="country" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; background: white;">
+                                    <option value="US">United States</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="UK">United Kingdom</option>
+                                    <option value="AU">Australia</option>
+                                    <option value="OTHER">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">Phone</label>
+                                <input type="tel" id="phone" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                            </div>
+                        </div>
+
+                        <!-- Payment Information -->
+                        <div class="form-section" style="background: white; padding: 24px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h3 style="margin-bottom: 20px; color: #333;">Payment</h3>
+                            <div class="payment-methods" style="margin-bottom: 20px;">
+                                <label style="display: flex; align-items: center; padding: 12px; border: 2px solid #8B4513; border-radius: 6px; cursor: pointer; margin-bottom: 12px;">
+                                    <input type="radio" name="payment" value="card" checked style="margin-right: 12px;">
+                                    <i class="fas fa-credit-card" style="margin-right: 8px; color: #8B4513;"></i>
+                                    Credit Card
+                                </label>
+                                <label style="display: flex; align-items: center; padding: 12px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; margin-bottom: 12px;">
+                                    <input type="radio" name="payment" value="paypal" style="margin-right: 12px;">
+                                    <i class="fab fa-paypal" style="margin-right: 8px; color: #003087;"></i>
+                                    PayPal
+                                </label>
+                            </div>
+                            <div id="card-details">
+                                <div class="form-group" style="margin-bottom: 16px;">
+                                    <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">Card Number</label>
+                                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 16px;">
+                                    <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">Name on Card</label>
+                                    <input type="text" id="cardName" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                                </div>
+                                <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                    <div class="form-group">
+                                        <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">Expiration Date (MM/YY)</label>
+                                        <input type="text" id="expiry" placeholder="MM/YY" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">CVV</label>
+                                        <input type="text" id="cvv" placeholder="123" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary" style="background: white; padding: 24px; border-radius: 8px; height: fit-content; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: sticky; top: 20px;">
+                    <h3 style="margin-bottom: 20px; color: #333;">Order Summary</h3>
+                    <div id="order-items" style="margin-bottom: 20px;">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+                    <div class="order-totals" style="border-top: 2px solid #f0f0f0; padding-top: 16px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px; color: #666;">
+                            <span>Subtotal</span>
+                            <span id="subtotal">$0.00</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px; color: #666;">
+                            <span>Shipping</span>
+                            <span id="shipping">Free</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px; color: #666;">
+                            <span>Tax</span>
+                            <span id="tax">$0.00</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 600; color: #333; padding-top: 16px; border-top: 2px solid #f0f0f0;">
+                            <span>Total</span>
+                            <span id="total">$0.00</span>
+                        </div>
+                    </div>
+                    <button type="button" id="place-order-btn" class="btn btn--primary btn--full" style="margin-top: 24px; background: #8B4513; color: white; border: none; padding: 16px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%;">
+                        Place Order
+                    </button>
+                    <p style="margin-top: 16px; font-size: 12px; color: #999; text-align: center;">
+                        <i class="fas fa-lock" style="margin-right: 4px;"></i>
+                        Secure checkout powered by ArtisanHub
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 60px;">
+        <div class="container">
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    © 2025 ArtisanHub. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="../js/supabase-config.js"></script>
+    <script type="module" src="../js/database-service.js"></script>
+    <script type="module" src="../js/auth-service.js"></script>
+    <script type="module" src="../js/cart-service.js"></script>
+    <script type="module">
+        // Checkout page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderSummary();
+            setupCheckoutForm();
+        });
+
+        function loadOrderSummary() {
+            // Wait for cart service to be ready
+            const checkCartService = setInterval(() => {
+                if (window.cartService) {
+                    clearInterval(checkCartService);
+                    const cart = window.cartService.getCart();
+                    displayOrderItems(cart);
+                    calculateTotals(cart);
+                }
+            }, 100);
+        }
+
+        function displayOrderItems(cart) {
+            const orderItemsContainer = document.getElementById('order-items');
+            
+            if (!cart || cart.length === 0) {
+                orderItemsContainer.innerHTML = '<p style="color: #999; text-align: center;">Your cart is empty</p>';
+                return;
+            }
+
+            orderItemsContainer.innerHTML = cart.map(item => `
+                <div style="display: flex; gap: 12px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #f0f0f0;">
+                    <img src="${item.image || 'https://via.placeholder.com/60'}" alt="${item.title}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px;">
+                    <div style="flex: 1;">
+                        <h4 style="font-size: 14px; margin-bottom: 4px;">${item.title}</h4>
+                        <p style="font-size: 12px; color: #999;">Quantity: ${item.quantity}</p>
+                    </div>
+                    <div style="font-weight: 600; color: #333;">
+                        $${(item.price * item.quantity).toFixed(2)}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function calculateTotals(cart) {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.08; // 8% tax
+            const shipping = subtotal > 50 ? 0 : 9.99; // Free shipping over $50
+            const total = subtotal + tax + shipping;
+
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('shipping').textContent = shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function setupCheckoutForm() {
+            const placeOrderBtn = document.getElementById('place-order-btn');
+            const form = document.getElementById('checkout-form');
+
+            placeOrderBtn.addEventListener('click', function() {
+                if (form.checkValidity()) {
+                    // Validate payment details if card payment is selected
+                    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+                    
+                    if (paymentMethod === 'card') {
+                        const cardNumber = document.getElementById('cardNumber').value;
+                        const cardName = document.getElementById('cardName').value;
+                        const expiry = document.getElementById('expiry').value;
+                        const cvv = document.getElementById('cvv').value;
+
+                        if (!cardNumber || !cardName || !expiry || !cvv) {
+                            alert('Please fill in all payment details');
+                            return;
+                        }
+                    }
+
+                    // Simulate order processing
+                    placeOrderBtn.textContent = 'Processing...';
+                    placeOrderBtn.disabled = true;
+
+                    setTimeout(() => {
+                        // Clear cart
+                        if (window.cartService) {
+                            window.cartService.clearCart();
+                        }
+                        // Redirect to confirmation page
+                        window.location.href = 'order-confirmation.html?order=' + Date.now();
+                    }, 2000);
+                } else {
+                    form.reportValidity();
+                }
+            });
+
+            // Toggle payment details
+            document.querySelectorAll('input[name="payment"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const cardDetails = document.getElementById('card-details');
+                    cardDetails.style.display = this.value === 'card' ? 'block' : 'none';
+                });
+            });
+        }
+    </script>
+</body>
+</html>
